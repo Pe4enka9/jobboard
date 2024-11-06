@@ -42,7 +42,7 @@ $job = $job->fetch();
 
     <select name="category">
         <?php foreach ($categories as $category): ?>
-            <?php if ($job['category_id'] == $category): ?>
+            <?php if ($job['category_id'] == $category['id']): ?>
                 <option value="<?= $category['id'] ?>" selected><?= $category['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
@@ -55,7 +55,7 @@ $job = $job->fetch();
 
     <select name="gender">
         <?php foreach ($genders as $gender): ?>
-            <?php if ($job['gender_id'] == $gender): ?>
+            <?php if ($job['gender_id'] == $gender['id']): ?>
                 <option value="<?= $gender['id'] ?>" selected><?= $gender['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $gender['id'] ?>"><?= $gender['name'] ?></option>
@@ -65,7 +65,7 @@ $job = $job->fetch();
 
     <select name="qualification">
         <?php foreach ($qualifications as $qualification): ?>
-            <?php if ($job['qualification_id'] == $qualification): ?>
+            <?php if ($job['qualification_id'] == $qualification['id']): ?>
                 <option value="<?= $qualification['id'] ?>" selected><?= $qualification['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $qualification['id'] ?>"><?= $qualification['name'] ?></option>
@@ -75,7 +75,7 @@ $job = $job->fetch();
 
     <select name="experience">
         <?php foreach ($experiences as $experience): ?>
-            <?php if ($job['experience_id'] == $experience): ?>
+            <?php if ($job['experience_id'] == $experience['id']): ?>
                 <option value="<?= $experience['id'] ?>" selected><?= $experience['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $experience['id'] ?>"><?= $experience['name'] ?></option>
@@ -85,7 +85,7 @@ $job = $job->fetch();
 
     <select name="job_type">
         <?php foreach ($jobTypes as $jobType): ?>
-            <?php if ($job['job_type_id'] == $jobType): ?>
+            <?php if ($job['job_type_id'] == $jobType['id']): ?>
                 <option value="<?= $jobType['id'] ?>" selected><?= $jobType['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $jobType['id'] ?>"><?= $jobType['name'] ?></option>
@@ -95,7 +95,7 @@ $job = $job->fetch();
 
     <select name="location">
         <?php foreach ($locations as $location): ?>
-            <?php if ($job['location_id'] == $location): ?>
+            <?php if ($job['location_id'] == $location['id']): ?>
                 <option value="<?= $location['id'] ?>" selected><?= $location['name'] ?></option>
             <?php else: ?>
                 <option value="<?= $location['id'] ?>"><?= $location['name'] ?></option>

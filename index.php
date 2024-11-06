@@ -71,7 +71,7 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                         <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
                                                 <li><a href="candidate.html">Candidates </a></li>
-                                                <li><a href="job_details.html">job details </a></li>
+                                                <li><a href="job_details.php">job details </a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>
                                         </li>
@@ -234,7 +234,7 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                     <img src="<?= $job['image'] ?>" alt="">
                                 </div>
                                 <div class="jobs_conetent">
-                                    <a href="job_details.html"><h4><?= $job['name'] ?></h4></a>
+                                    <a href="job_details.php"><h4><?= $job['name'] ?></h4></a>
                                     <div class="links_locat d-flex align-items-center">
                                         <div class="location">
                                             <p><i class="fa fa-map-marker"></i><?= $job['location'] ?></p>
@@ -248,7 +248,7 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                             <div class="jobs_right">
                                 <div class="apply_now">
                                     <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
-                                    <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                    <a href="job_details.php" class="boxed-btn3">Apply Now</a>
                                 </div>
                                 <div class="date">
                                     <p>Date line: <?= $job['date'] ?></p>

@@ -2,6 +2,7 @@
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
+// Получаем все данные для полей select
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 $testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
 $locations = $pdo->query("SELECT * FROM location")->fetchAll();
@@ -10,10 +11,55 @@ $jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
 $qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
 $genders = $pdo->query("SELECT * FROM gender")->fetchAll();
 
-$jobs = $pdo->query("SELECT jobs.name, jobs.image, jobs.date, jobs.location_id, jobs.job_type_id, location.name AS location, job_type.name AS job_type
-FROM jobs
-JOIN location ON jobs.location_id = location.id
-JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
+$filters = [
+    'location' => $_GET['location'] ?? 'all',
+    'category' => $_GET['category'] ?? 'all',
+    'experience' => $_GET['experience'] ?? 'all',
+    'job_type' => $_GET['job_type'] ?? 'all',
+    'qualification' => $_GET['qualification'] ?? 'all',
+    'gender' => $_GET['gender'] ?? 'all',
+];
+
+$sql = "SELECT jobs.*, location.name AS location, job_type.name AS job_type
+        FROM jobs
+        JOIN location ON jobs.location_id = location.id
+        JOIN job_type ON jobs.job_type_id = job_type.id";
+
+$whereClauses = [];
+$params = [];
+
+if ($filters['location'] !== 'all') {
+    $whereClauses[] = "jobs.location_id = :location";
+    $params['location'] = $filters['location'];
+}
+if ($filters['category'] !== 'all') {
+    $whereClauses[] = "jobs.category_id = :category";
+    $params['category'] = $filters['category'];
+}
+if ($filters['experience'] !== 'all') {
+    $whereClauses[] = "jobs.experience_id = :experience";
+    $params['experience'] = $filters['experience'];
+}
+if ($filters['job_type'] !== 'all') {
+    $whereClauses[] = "jobs.job_type_id = :job_type";
+    $params['job_type'] = $filters['job_type'];
+}
+if ($filters['qualification'] !== 'all') {
+    $whereClauses[] = "jobs.qualification_id = :qualification";
+    $params['qualification'] = $filters['qualification'];
+}
+if ($filters['gender'] !== 'all') {
+    $whereClauses[] = "jobs.gender_id = :gender";
+    $params['gender'] = $filters['gender'];
+}
+
+if ($whereClauses) {
+    $sql .= " WHERE " . implode(" AND ", $whereClauses);
+}
+
+$stmt = $pdo->prepare($sql);
+$stmt->execute($params);
+$jobs = $stmt->fetchAll();
 ?>
 
 <!doctype html>
@@ -72,11 +118,11 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                 <nav>
                                     <ul id="navigation">
                                         <li><a href="index.php">home</a></li>
-                                        <li><a href="jobs.html">Browse Job</a></li>
+                                        <li><a href="/jobs.php">Browse Job</a></li>
                                         <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
                                                 <li><a href="candidate.html">Candidates </a></li>
-                                                <li><a href="job_details.html">job details </a></li>
+                                                <li><a href="job_details.php">job details </a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>
                                         </li>
@@ -144,28 +190,40 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Location" selected>Location</option>
+                                        <select class="wide" name="location">
+                                            <option data-display="Location" value="all" selected>Location
+                                            </option>
                                             <?php foreach ($locations as $location): ?>
-                                                <option value="<?= $location['id'] ?>"><?= $location['name'] ?></option>
+                                                <?php if ($filters['location'] == $location['id']): ?>
+                                                    <option value="<?= $location['id'] ?>"
+                                                            selected><?= $location['name'] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $location['id'] ?>"><?= $location['name'] ?></option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Category" selected>Category</option>
+                                        <select class="wide" name="category">
+                                            <option data-display="Category" value="all" selected>Category
+                                            </option>
                                             <?php foreach ($categories as $category): ?>
-                                                <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                                                <?php if ($filters['category'] == $category['id']): ?>
+                                                    <option value="<?= $category['id'] ?>"
+                                                            selected><?= $category['name'] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Experience" selected>Experience</option>
+                                        <select class="wide" name="experience">
+                                            <option data-display="Experience" value="all" selected>Experience</option>
                                             <?php foreach ($experiences as $experience): ?>
                                                 <option value="<?= $experience['id'] ?>"><?= $experience['name'] ?></option>
                                             <?php endforeach; ?>
@@ -174,8 +232,8 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Job type" selected>Job type</option>
+                                        <select class="wide" name="job_type">
+                                            <option data-display="Job type" value="all" selected>Job type</option>
                                             <?php foreach ($jobTypes as $jobType): ?>
                                                 <option value="<?= $jobType['id'] ?>"><?= $jobType['name'] ?></option>
                                             <?php endforeach; ?>
@@ -184,8 +242,9 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Qualification" selected>Qualification</option>
+                                        <select class="wide" name="qualification">
+                                            <option data-display="Qualification" value="all" selected>Qualification
+                                            </option>
                                             <?php foreach ($qualifications as $qualification): ?>
                                                 <option value="<?= $qualification['id'] ?>"><?= $qualification['name'] ?></option>
                                             <?php endforeach; ?>
@@ -194,8 +253,8 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <select class="wide">
-                                            <option data-display="Gender" selected>Gender</option>
+                                        <select class="wide" name="gender">
+                                            <option data-display="Gender" value="all" selected>Gender</option>
                                             <?php foreach ($genders as $gender): ?>
                                                 <option value="<?= $gender['id'] ?>"><?= $gender['name'] ?></option>
                                             <?php endforeach; ?>
@@ -203,18 +262,19 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="range_wrap">
+                                <label for="amount">Price range:</label>
+                                <div id="slider-range"></div>
+                                <p>
+                                    <input type="text" id="amount" readonly
+                                           style="border:0; color:#7A838B; font-size: 14px; font-weight:400;">
+                                </p>
+                            </div>
+                            <div class="reset_btn">
+                                <button class="boxed-btn3 w-100" type="submit">Search</button>
+                            </div>
                         </form>
-                    </div>
-                    <div class="range_wrap">
-                        <label for="amount">Price range:</label>
-                        <div id="slider-range"></div>
-                        <p>
-                            <input type="text" id="amount" readonly
-                                   style="border:0; color:#7A838B; font-size: 14px; font-weight:400;">
-                        </p>
-                    </div>
-                    <div class="reset_btn">
-                        <button class="boxed-btn3 w-100" type="submit">Reset</button>
                     </div>
                 </div>
             </div>
@@ -227,8 +287,8 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                             </div>
                             <div class="col-md-6">
                                 <div class="serch_cat d-flex justify-content-end">
-                                    <select>
-                                        <option data-display="Most Recent">Most Recent</option>
+                                    <select name="filter">
+                                        <option data-display="Most Recent" selected>Most Recent</option>
                                         <option value="1">Marketer</option>
                                         <option value="2">Wordpress</option>
                                         <option value="4">Designer</option>
@@ -249,7 +309,8 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                             <img src="<?= $job['image'] ?>" alt="">
                                         </div>
                                         <div class="jobs_conetent">
-                                            <a href="job_details.html"><h4><?= $job['name'] ?></h4></a>
+                                            <a href="/job_details.php?id=<?= $job['id'] ?>"><h4><?= $job['name'] ?></h4>
+                                            </a>
                                             <div class="links_locat d-flex align-items-center">
                                                 <div class="location">
                                                     <p><i class="fa fa-map-marker"></i><?= $job['location'] ?></p>
@@ -263,7 +324,8 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                                     <div class="jobs_right">
                                         <div class="apply_now">
                                             <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
-                                            <a href="job_details.html" class="boxed-btn3">Apply Now</a>
+                                            <a href="/job_details.php?id=<?= $job['id'] ?>" class="boxed-btn3">Apply
+                                                Now</a>
                                         </div>
                                         <div class="date">
                                             <p>Date line: <?= $job['date'] ?></p>
