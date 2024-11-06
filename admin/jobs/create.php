@@ -74,6 +74,8 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
         <?php endforeach; ?>
     </select>
 
+    <input type="file" name="image">
+
     <input type="submit" value="Add">
 </form>
 

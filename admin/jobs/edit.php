@@ -35,7 +35,7 @@ $job = $job->fetch();
 
 <h1>Edit job</h1>
 
-<form action="/admin/jobs/actions/update.php" method="post">
+<form action="/admin/jobs/actions/update.php" method="post" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $_GET['id'] ?? '' ?>">
     <input type="text" name="name" placeholder="Name" value="<?= $job['name'] ?>">
     <textarea name="description" placeholder="Description"><?= $job['description'] ?></textarea>
@@ -102,6 +102,10 @@ $job = $job->fetch();
             <?php endif; ?>
         <?php endforeach; ?>
     </select>
+
+    <img src="<?= $job['image'] ?>" height="100px">
+
+    <input type="file" name="image">
 
     <input type="submit" value="Edit">
 </form>
