@@ -12,6 +12,7 @@
 <h1>Admin</h1>
 
 <a href="/admin/jobs/">Jobs</a>
+<a href="/admin/categories/">Categories</a>
 
 </body>
 </html>

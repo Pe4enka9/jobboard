@@ -16,7 +16,10 @@ if (in_array($_FILES['image']['type'], $types)) {
     copy($_FILES['image']['tmp_name'], $path . $_FILES['image']['name']);
     $image = '/img/' . $_FILES['image']['name'];
 } else {
-    $image = null;
+    $image = $pdo->prepare("SELECT image FROM jobs WHERE id = ?");
+    $image->execute([$_POST['id']]);
+    $image = $image->fetch();
+    $image = $image['image'];
 }
 
 $stmt = $pdo->prepare("UPDATE jobs SET name = :name, description = :description,

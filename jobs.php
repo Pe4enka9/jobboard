@@ -2,8 +2,7 @@
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-$categories = $pdo->query("SELECT * FROM categories WHERE is_popular IS TRUE")->fetchAll();
-$categoriesSearch = $pdo->query("SELECT * FROM categories WHERE is_popular_search IS TRUE")->fetchAll();
+$categories = $pdo->query("SELECT * FROM categories")->fetchAll();
 $testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
 $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 $experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
