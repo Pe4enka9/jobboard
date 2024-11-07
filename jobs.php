@@ -9,7 +9,6 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 $experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
 $jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
 $qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
-$genders = $pdo->query("SELECT * FROM gender")->fetchAll();
 
 $filters = [
     'location' => $_GET['location'] ?? 'all',
@@ -17,8 +16,15 @@ $filters = [
     'experience' => $_GET['experience'] ?? 'all',
     'job_type' => $_GET['job_type'] ?? 'all',
     'qualification' => $_GET['qualification'] ?? 'all',
-    'gender' => $_GET['gender'] ?? 'all',
+    'keywords' => $_GET['keywords'] ?? '',
+    'min_salary' => $_GET['min_salary'] ?? '',
+    'max_salary' => $_GET['max_salary'] ?? '',
 ];
+
+$minSalary = round(24600 * (float)$filters['min_salary'] / 100);
+$maxSalary = round(24600 * (float)$filters['max_salary'] / 100);
+
+$sorting = $_GET['sorting'] ?? 'most_recent';
 
 $sql = "SELECT jobs.*, location.name AS location, job_type.name AS job_type
         FROM jobs
@@ -48,20 +54,29 @@ if ($filters['qualification'] !== 'all') {
     $whereClauses[] = "jobs.qualification_id = :qualification";
     $params['qualification'] = $filters['qualification'];
 }
-if ($filters['gender'] !== 'all') {
-    $whereClauses[] = "jobs.gender_id = :gender";
-    $params['gender'] = $filters['gender'];
+if (!empty($filters['keywords'])) {
+    $whereClauses[] = "jobs.name LIKE :keywords";
+    $params['keywords'] = '%' . $filters['keywords'] . '%';
 }
 
 if ($whereClauses) {
     $sql .= " WHERE " . implode(" AND ", $whereClauses);
 }
 
+if ($sorting === 'most_recent') {
+    $sql .= " ORDER BY jobs.date DESC";
+} elseif ($sorting === 'oldest') {
+    $sql .= " ORDER BY jobs.date ASC";
+} elseif ($sorting === 'highest_salary') {
+    $sql .= " ORDER BY jobs.max_salary DESC";
+} elseif ($sorting === 'lowest_salary') {
+    $sql .= " ORDER BY jobs.max_salary ASC";
+}
+
 $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $jobs = $stmt->fetchAll();
 ?>
-
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -181,11 +196,12 @@ $jobs = $stmt->fetchAll();
                 <div class="job_filter white-bg">
                     <div class="form_inner white-bg">
                         <h3>Filter</h3>
-                        <form action="#">
+                        <form id="my-form">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="single_field">
-                                        <input type="text" placeholder="Search keyword">
+                                        <input type="text" name="keywords" placeholder="Search keyword"
+                                               value="<?= $filters['keywords'] ?? '' ?>">
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -225,7 +241,12 @@ $jobs = $stmt->fetchAll();
                                         <select class="wide" name="experience">
                                             <option data-display="Experience" value="all" selected>Experience</option>
                                             <?php foreach ($experiences as $experience): ?>
-                                                <option value="<?= $experience['id'] ?>"><?= $experience['name'] ?></option>
+                                                <?php if ($filters['experience'] == $experience['id']): ?>
+                                                    <option value="<?= $experience['id'] ?>"
+                                                            selected><?= $experience['name'] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $experience['id'] ?>"><?= $experience['name'] ?></option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -235,7 +256,12 @@ $jobs = $stmt->fetchAll();
                                         <select class="wide" name="job_type">
                                             <option data-display="Job type" value="all" selected>Job type</option>
                                             <?php foreach ($jobTypes as $jobType): ?>
-                                                <option value="<?= $jobType['id'] ?>"><?= $jobType['name'] ?></option>
+                                                <?php if ($filters['job_type'] == $jobType['id']): ?>
+                                                    <option value="<?= $jobType['id'] ?>"
+                                                            selected><?= $jobType['name'] ?></option>
+                                                <?php else: ?>
+                                                    <option value="<?= $jobType['id'] ?>"><?= $jobType['name'] ?></option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -246,17 +272,15 @@ $jobs = $stmt->fetchAll();
                                             <option data-display="Qualification" value="all" selected>Qualification
                                             </option>
                                             <?php foreach ($qualifications as $qualification): ?>
-                                                <option value="<?= $qualification['id'] ?>"><?= $qualification['name'] ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-12">
-                                    <div class="single_field">
-                                        <select class="wide" name="gender">
-                                            <option data-display="Gender" value="all" selected>Gender</option>
-                                            <?php foreach ($genders as $gender): ?>
-                                                <option value="<?= $gender['id'] ?>"><?= $gender['name'] ?></option>
+                                                <?php if ($filters['qualification'] == $qualification['id']): ?>
+                                                    <option value="<?= $qualification['id'] ?>"
+                                                            selected><?= $qualification['level'] ?> level
+                                                    </option>
+                                                <?php else: ?>
+                                                    <option value="<?= $qualification['id'] ?>"><?= $qualification['level'] ?>
+                                                        level
+                                                    </option>
+                                                <?php endif; ?>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -265,16 +289,22 @@ $jobs = $stmt->fetchAll();
 
                             <div class="range_wrap">
                                 <label for="amount">Price range:</label>
-                                <div id="slider-range"></div>
+                                <div id="slider-range">
+                                    <input type="hidden" name="min_salary" id="min_salary">
+                                    <input type="hidden" name="max_salary" id="max_salary">
+                                </div>
                                 <p>
                                     <input type="text" id="amount" readonly
                                            style="border:0; color:#7A838B; font-size: 14px; font-weight:400;">
                                 </p>
                             </div>
-                            <div class="reset_btn">
+                            <div class="reset_btn" style="margin-bottom: 10px;">
                                 <button class="boxed-btn3 w-100" type="submit">Search</button>
                             </div>
-                        </form>
+
+                            <div class="reset_btn">
+                                <a href="/jobs.php" class="boxed-btn3 w-100"">Reset</a>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -287,12 +317,29 @@ $jobs = $stmt->fetchAll();
                             </div>
                             <div class="col-md-6">
                                 <div class="serch_cat d-flex justify-content-end">
-                                    <select name="filter">
-                                        <option data-display="Most Recent" selected>Most Recent</option>
-                                        <option value="1">Marketer</option>
-                                        <option value="2">Wordpress</option>
-                                        <option value="4">Designer</option>
+                                    <select name="sorting">
+                                        <option data-display="Most Recent" value="most_recent" selected>Most
+                                            Recent
+                                        </option>
+                                        <?php if ($sorting === 'oldest'): ?>
+                                            <option value="oldest" selected>Oldest</option>
+                                        <?php else: ?>
+                                            <option value="oldest">Oldest</option>
+                                        <?php endif; ?>
+
+                                        <?php if ($sorting === 'highest_salary'): ?>
+                                            <option value="highest_salary" selected>Highest Salary</option>
+                                        <?php else: ?>
+                                            <option value="highest_salary">Highest Salary</option>
+                                        <?php endif; ?>
+
+                                        <?php if ($sorting === 'lowest_salary'): ?>
+                                            <option value="lowest_salary" selected>Lowest Salary</option>
+                                        <?php else: ?>
+                                            <option value="lowest_salary">Lowest Salary</option>
+                                        <?php endif; ?>
                                     </select>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -328,7 +375,7 @@ $jobs = $stmt->fetchAll();
                                                 Now</a>
                                         </div>
                                         <div class="date">
-                                            <p>Date line: <?= $job['date'] ?></p>
+                                            <p>Date: <?= $job['date'] ?></p>
                                         </div>
                                     </div>
                                 </div>
@@ -510,6 +557,8 @@ $jobs = $stmt->fetchAll();
             " - $" + $("#slider-range").slider("values", 1) + "/ Year");
     });
 </script>
+
+<script src="js/my.js"></script>
 </body>
 
 </html>

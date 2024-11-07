@@ -8,11 +8,14 @@ $categories = $pdo->query("SELECT * FROM categories WHERE is_popular IS TRUE")->
 $testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
 $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 
-$jobs = $pdo->query("SELECT jobs.name, jobs.image, jobs.date, jobs.location_id, jobs.job_type_id, location.name AS location, job_type.name AS job_type
+$jobs = $pdo->query("SELECT jobs.name, jobs.image, jobs.date, location.name AS location, job_type.name AS job_type
 FROM jobs
 JOIN location ON jobs.location_id = location.id
 JOIN job_type ON jobs.job_type_id = job_type.id
+ORDER BY jobs.date DESC
 LIMIT 5")->fetchAll();
+
+$companies = $pdo->query("SELECT company, image, available_position FROM companies LIMIT 4")->fetchAll();
 ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -246,7 +249,7 @@ LIMIT 5")->fetchAll();
                                     <a href="job_details.php" class="boxed-btn3">Apply Now</a>
                                 </div>
                                 <div class="date">
-                                    <p>Date line: <?= $job['date'] ?></p>
+                                    <p>Date: <?= $job['date'] ?></p>
                                 </div>
                             </div>
                         </div>
@@ -273,42 +276,17 @@ LIMIT 5")->fetchAll();
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_company">
-                    <div class="thumb">
-                        <img src="img/svg_icon/5.svg" alt="">
+            <?php foreach ($companies as $company): ?>
+                <div class="col-lg-4 col-xl-3 col-md-6">
+                    <div class="single_company">
+                        <div class="thumb">
+                            <img src="<?= $company['image'] ?>" alt="">
+                        </div>
+                        <a href="jobs.php"><h3><?= $company['company'] ?></h3></a>
+                        <p><span><?= $company['available_position'] ?></span> Available position</p>
                     </div>
-                    <a href="jobs.php"><h3>Snack Studio</h3></a>
-                    <p><span>50</span> Available position</p>
                 </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_company">
-                    <div class="thumb">
-                        <img src="img/svg_icon/4.svg" alt="">
-                    </div>
-                    <a href="jobs.php"><h3>Snack Studio</h3></a>
-                    <p><span>50</span> Available position</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_company">
-                    <div class="thumb">
-                        <img src="img/svg_icon/3.svg" alt="">
-                    </div>
-                    <a href="jobs.php"><h3>Snack Studio</h3></a>
-                    <p><span>50</span> Available position</p>
-                </div>
-            </div>
-            <div class="col-lg-4 col-xl-3 col-md-6">
-                <div class="single_company">
-                    <div class="thumb">
-                        <img src="img/svg_icon/1.svg" alt="">
-                    </div>
-                    <a href="jobs.php"><h3>Snack Studio</h3></a>
-                    <p><span>50</span> Available position</p>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 </div>
