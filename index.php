@@ -1,16 +1,18 @@
 <?php
+session_start();
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
 $categories = $pdo->query("SELECT * FROM categories WHERE is_popular IS TRUE")->fetchAll();
-$categoriesSearch = $pdo->query("SELECT * FROM categories WHERE is_popular_search IS TRUE")->fetchAll();
 $testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
 $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 
 $jobs = $pdo->query("SELECT jobs.name, jobs.image, jobs.date, jobs.location_id, jobs.job_type_id, location.name AS location, job_type.name AS job_type
 FROM jobs
 JOIN location ON jobs.location_id = location.id
-JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
+JOIN job_type ON jobs.job_type_id = job_type.id
+LIMIT 5")->fetchAll();
 ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -89,7 +91,12 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="Appointment">
                                 <div class="phone_num d-none d-xl-block">
-                                    <a href="#">Log in</a>
+                                    <?php if (!isset($_SESSION['company_id'])): ?>
+                                        <a href="/login.php" style="margin-right: 10px;">Log in</a>
+                                        <a href="/register.php" style="margin-right: 10px;">Register</a>
+                                    <?php else: ?>
+                                        <a href="/auth/logout.php">Log out</a>
+                                    <?php endif; ?>
                                 </div>
                                 <div class="d-none d-lg-block">
                                     <a class="boxed-btn3" href="#">Post a Job</a>
@@ -166,18 +173,6 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
             <div class="col-lg-3 col-md-12">
                 <div class="job_btn">
                     <a href="#" class="boxed-btn3">Find Job</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="popular_search d-flex align-items-center">
-                    <span>Popular Search:</span>
-                    <ul>
-                        <?php foreach ($categoriesSearch as $categorySearch): ?>
-                            <li><a href="#"><?= $categorySearch['name'] ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
                 </div>
             </div>
         </div>
@@ -262,117 +257,6 @@ JOIN job_type ON jobs.job_type_id = job_type.id")->fetchAll();
     </div>
 </div>
 <!-- job_listing_area_end  -->
-
-<!-- featured_candidates_area_start  -->
-<div class="featured_candidates_area">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section_title text-center mb-40">
-                    <h3>Featured Candidates</h3>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="candidate_active owl-carousel">
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/1.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/2.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/3.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/4.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/5.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/6.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/7.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/8.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/9.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/9.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/10.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/3.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                    <div class="single_candidates text-center">
-                        <div class="thumb">
-                            <img src="img/candiateds/4.png" alt="">
-                        </div>
-                        <a href="#"><h4>Markary Jondon</h4></a>
-                        <p>Software Engineer</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- featured_candidates_area_end  -->
 
 <div class="top_companies_area">
     <div class="container">
