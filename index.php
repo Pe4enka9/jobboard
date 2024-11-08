@@ -8,7 +8,7 @@ $categories = $pdo->query("SELECT * FROM categories WHERE is_popular IS TRUE")->
 $testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
 $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 
-$jobs = $pdo->query("SELECT jobs.name, jobs.image, jobs.date, location.name AS location, job_type.name AS job_type
+$jobs = $pdo->query("SELECT jobs.*, location.name AS location, job_type.name AS job_type
 FROM jobs
 JOIN location ON jobs.location_id = location.id
 JOIN job_type ON jobs.job_type_id = job_type.id
@@ -147,38 +147,42 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
 <!-- catagory_area -->
 <div class="catagory_area">
     <div class="container">
-        <div class="row cat_search">
-            <div class="col-lg-3 col-md-4">
-                <div class="single_input">
-                    <input type="text" placeholder="Search keyword">
+        <form action="/jobs.php" method="get">
+            <div class="row cat_search">
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <input type="text" name="keywords" placeholder="Search keyword">
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <select class="wide" name="location">
+                            <option data-display="Location" selected value="all">Location</option>
+                            <?php foreach ($locations as $location): ?>
+                                <option value="<?= $location['id'] ?>"><?= $location['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <div class="single_input">
+                        <select class="wide" name="category">
+                            <option data-display="Category" selected value="all">Category</option>
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <div class="job_btn">
+                        <button type="submit" class="boxed-btn3" style="width: 100%; display: block !important;">Find
+                            Job
+                        </button>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4">
-                <div class="single_input">
-                    <select class="wide">
-                        <option data-display="Location" selected value="all">Location</option>
-                        <?php foreach ($locations as $location): ?>
-                            <option value="<?= $location['id'] ?>"><?= $location['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-4">
-                <div class="single_input">
-                    <select class="wide">
-                        <option data-display="Category" selected value="all">Category</option>
-                        <?php foreach ($categories as $category): ?>
-                            <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-12">
-                <div class="job_btn">
-                    <a href="#" class="boxed-btn3">Find Job</a>
-                </div>
-            </div>
-        </div>
+        </form>
     </div>
 </div>
 <!--/ catagory_area -->
@@ -197,7 +201,7 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
             <?php foreach ($categories as $category): ?>
                 <div class="col-lg-4 col-xl-3 col-md-6">
                     <div class="single_catagory">
-                        <a href="jobs.php"><h4><?= $category['name'] ?></h4></a>
+                        <a href="/jobs.php?category=<?= $category['id'] ?>"><h4><?= $category['name'] ?></h4></a>
                         <p><span><?= $category['available_position'] ?></span> Available position</p>
                     </div>
                 </div>
@@ -246,10 +250,10 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                             <div class="jobs_right">
                                 <div class="apply_now">
                                     <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
-                                    <a href="job_details.php" class="boxed-btn3">Apply Now</a>
+                                    <a href="/job_details.php?slug=<?= $job['slug'] ?>" class="boxed-btn3">Apply Now</a>
                                 </div>
                                 <div class="date">
-                                    <p>Date: <?= $job['date'] ?></p>
+                                    <p>Date: <?= date('d F Y', strtotime($job['date'])) ?></p>
                                 </div>
                             </div>
                         </div>
