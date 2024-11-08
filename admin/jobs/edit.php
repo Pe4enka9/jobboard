@@ -3,7 +3,6 @@
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
-$genders = $pdo->query("SELECT * FROM gender")->fetchAll();
 $qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
 $experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
 $jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
@@ -25,7 +24,7 @@ $job = $job->fetch();
 </head>
 
 <style>
-    input, select, label {
+    input, select, label, textarea {
         display: block;
         margin-bottom: 15px;
     }
@@ -39,6 +38,7 @@ $job = $job->fetch();
     <input type="hidden" name="id" value="<?= $_GET['id'] ?? '' ?>">
     <input type="text" name="name" placeholder="Name" value="<?= $job['name'] ?>">
     <textarea name="description" placeholder="Description"><?= $job['description'] ?></textarea>
+    <input type="text" name="slug" placeholder="Slug" value="<?= $job['slug'] ?>">
 
     <select name="category">
         <?php foreach ($categories as $category): ?>
@@ -53,22 +53,12 @@ $job = $job->fetch();
     <input type="text" name="min_salary" placeholder="Minimum salary" value="<?= $job['min_salary'] ?>">
     <input type="text" name="max_salary" placeholder="Maximum salary" value="<?= $job['max_salary'] ?>">
 
-    <select name="gender">
-        <?php foreach ($genders as $gender): ?>
-            <?php if ($job['gender_id'] == $gender['id']): ?>
-                <option value="<?= $gender['id'] ?>" selected><?= $gender['name'] ?></option>
-            <?php else: ?>
-                <option value="<?= $gender['id'] ?>"><?= $gender['name'] ?></option>
-            <?php endif; ?>
-        <?php endforeach; ?>
-    </select>
-
     <select name="qualification">
         <?php foreach ($qualifications as $qualification): ?>
             <?php if ($job['qualification_id'] == $qualification['id']): ?>
-                <option value="<?= $qualification['id'] ?>" selected><?= $qualification['name'] ?></option>
+                <option value="<?= $qualification['id'] ?>" selected><?= $qualification['level'] ?> level</option>
             <?php else: ?>
-                <option value="<?= $qualification['id'] ?>"><?= $qualification['name'] ?></option>
+                <option value="<?= $qualification['id'] ?>"><?= $qualification['level'] ?> level</option>
             <?php endif; ?>
         <?php endforeach; ?>
     </select>

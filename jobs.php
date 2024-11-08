@@ -82,6 +82,7 @@ $stmt = $pdo->prepare($sql);
 $stmt->execute($params);
 $jobs = $stmt->fetchAll();
 ?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -361,7 +362,7 @@ $jobs = $stmt->fetchAll();
                                             <img src="<?= $job['image'] ?>" alt="">
                                         </div>
                                         <div class="jobs_conetent">
-                                            <a href="/job_details.php?id=<?= $job['id'] ?>"><h4><?= $job['name'] ?></h4>
+                                            <a href="/job_details.php?slug=<?= $job['slug'] ?>"><h4><?= $job['name'] ?></h4>
                                             </a>
                                             <div class="links_locat d-flex align-items-center">
                                                 <div class="location">
@@ -382,11 +383,11 @@ $jobs = $stmt->fetchAll();
                                     <div class="jobs_right">
                                         <div class="apply_now">
                                             <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
-                                            <a href="/job_details.php?id=<?= $job['id'] ?>" class="boxed-btn3">Apply
+                                            <a href="/job_details.php?slug=<?= $job['slug'] ?>" class="boxed-btn3">Apply
                                                 Now</a>
                                         </div>
                                         <div class="date">
-                                            <p>Date: <?= $job['date'] ?></p>
+                                            <p>Date: <?= date('d.m.Y', strtotime($job['date'])) ?></p>
                                         </div>
                                     </div>
                                 </div>

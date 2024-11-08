@@ -3,7 +3,6 @@
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
-$genders = $pdo->query("SELECT * FROM gender")->fetchAll();
 $qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
 $experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
 $jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
@@ -21,7 +20,7 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 </head>
 
 <style>
-    input, select, label {
+    input, select, label, textarea {
         display: block;
         margin-bottom: 15px;
     }
@@ -32,8 +31,9 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 <h1>Add job</h1>
 
 <form action="/admin/jobs/actions/store.php" method="post" enctype="multipart/form-data">
-    <input type="text" name="name" placeholder="Name">
-    <textarea name="description" placeholder="Description"></textarea>
+    <input type="text" name="name" placeholder="Name" required>
+    <textarea name="description" placeholder="Description" required></textarea>
+    <input type="text" name="slug" placeholder="Slug">
 
     <select name="category">
         <?php foreach ($categories as $category): ?>
@@ -44,15 +44,9 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
     <input type="text" name="min_salary" placeholder="Minimum salary">
     <input type="text" name="max_salary" placeholder="Maximum salary">
 
-    <select name="gender">
-        <?php foreach ($genders as $gender): ?>
-            <option value="<?= $gender['id'] ?>"><?= $gender['name'] ?></option>
-        <?php endforeach; ?>
-    </select>
-
     <select name="qualification">
         <?php foreach ($qualifications as $qualification): ?>
-            <option value="<?= $qualification['id'] ?>"><?= $qualification['name'] ?></option>
+            <option value="<?= $qualification['id'] ?>"><?= $qualification['level'] ?> level</option>
         <?php endforeach; ?>
     </select>
 

@@ -1,18 +1,19 @@
 <?php
+session_start();
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-$job = $pdo->prepare("SELECT jobs.*, categories.name AS category, gender.name AS gender, qualification.name AS qualification, experience.name AS experience,
+$job = $pdo->prepare("SELECT jobs.*, categories.name AS category, qualification.level AS qualification, experience.name AS experience,
 job_type.name AS job_type, location.name AS location
 FROM jobs
 JOIN categories ON jobs.category_id = categories.id
-JOIN gender ON jobs.gender_id = gender.id
 JOIN qualification ON jobs.qualification_id = qualification.id
 JOIN experience ON jobs.experience_id = experience.id
 JOIN job_type ON jobs.job_type_id = job_type.id
 JOIN location ON jobs.location_id = location.id
-WHERE jobs.id = ?");
-$job->execute([$_GET['id'] ?? '']);
+WHERE jobs.slug = ?");
+$job->execute([$_GET['slug'] ?? '']);
 $job = $job->fetch();
 ?>
 
@@ -190,21 +191,22 @@ $job = $job->fetch();
                 </div>
                 <div class="apply_job_form white-bg">
                     <h4>Apply for the job</h4>
-                    <form action="#">
+                    <form action="/apply_for_the_job.php" method="post" enctype="multipart/form-data">
                         <div class="row">
+                            <input type="hidden" name="slug" value="<?= $job['slug'] ?>">
                             <div class="col-md-6">
                                 <div class="input_field">
-                                    <input type="text" placeholder="Your name">
+                                    <input type="text" name="name" placeholder="Your name">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="input_field">
-                                    <input type="text" placeholder="Email">
+                                    <input type="email" name="email" placeholder="Email">
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="input_field">
-                                    <input type="text" placeholder="Website/Portfolio link">
+                                    <input type="url" name="url" placeholder="Website/Portfolio link">
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -215,15 +217,22 @@ $job = $job->fetch();
                                         </button>
                                     </div>
                                     <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="inputGroupFile03"
+                                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile03"
                                                aria-describedby="inputGroupFileAddon03">
                                         <label class="custom-file-label" for="inputGroupFile03">Upload CV</label>
                                     </div>
                                 </div>
+                                <?php
+                                if (isset($_SESSION['error'])) {
+                                    echo "<p style='color: #f00;'>" . $_SESSION['error'] . "</p>";
+                                    unset($_SESSION['error']);
+                                }
+                                ?>
                             </div>
                             <div class="col-md-12">
                                 <div class="input_field">
-                                    <textarea name="#" id="" cols="30" rows="10" placeholder="Coverletter"></textarea>
+                                    <textarea name="cover_letter" cols="30" rows="10"
+                                              placeholder="Cover letter"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -242,8 +251,10 @@ $job = $job->fetch();
                     </div>
                     <div class="job_content">
                         <ul>
-                            <li>Published on: <span><?= $job['date'] ?></span></li>
-                            <li>Vacancy: <span>2 Position</span></li>
+                            <li>Published on: <span><?= date('d F Y', strtotime($job['date'])) ?></span></li>
+                            <li>Category: <span><?= $job['category'] ?></span></li>
+                            <li>Qualification: <span><?= $job['qualification'] ?> level</span></li>
+                            <li>Experience: <span><?= $job['experience'] ?></span></li>
                             <li>Salary: <span><?= $job['min_salary'] ?>k - <?= $job['max_salary'] ?>k/y</span></li>
                             <li>Location: <span><?= $job['location'] ?></span></li>
                             <li>Job Nature: <span><?= $job['job_type'] ?></span></li>
