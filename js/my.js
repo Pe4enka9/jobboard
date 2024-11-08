@@ -9,5 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('my-form').addEventListener('submit', () => {
         minSalary.setAttribute('value', values[0].style.left);
         maxSalary.setAttribute('value', values[1].style.left);
+
+        localStorage.setItem('minSalary', values[0].style.left.replace('%', ''));
+        localStorage.setItem('maxSalary', values[1].style.left.replace('%', ''));
     });
+
+    console.log(values[0].style.left = localStorage.getItem('minSalary') + '%';
+    console.log(values[1].style.left = localStorage.getItem('maxSalary') + '%';
 });

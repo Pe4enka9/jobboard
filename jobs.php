@@ -59,6 +59,11 @@ if (!empty($filters['keywords'])) {
     $params['keywords'] = '%' . $filters['keywords'] . '%';
 }
 
+$whereClauses[] = "jobs.min_salary >= :min_salary";
+$params['min_salary'] = $minSalary;
+$whereClauses[] = "jobs.max_salary <= :max_salary";
+$params['max_salary'] = empty($maxSalary) ? 24600 : $maxSalary;
+
 if ($whereClauses) {
     $sql .= " WHERE " . implode(" AND ", $whereClauses);
 }
@@ -365,6 +370,12 @@ $jobs = $stmt->fetchAll();
                                                 <div class="location">
                                                     <p><i class="fa fa-clock-o"></i><?= $job['job_type'] ?></p>
                                                 </div>
+                                                <div class="location">
+                                                    <p><?= $job['min_salary'] ?></p>
+                                                </div>
+                                                <div class="location">
+                                                    <p><?= $job['max_salary'] ?></p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -548,7 +559,7 @@ $jobs = $stmt->fetchAll();
             range: true,
             min: 0,
             max: 24600,
-            values: [750, 24600],
+            values: [0, 24600],
             slide: function (event, ui) {
                 $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1] + "/ Year");
             }
