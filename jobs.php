@@ -142,7 +142,7 @@ $jobs = $stmt->fetchAll();
                                         <li><a href="/jobs.php">Browse Job</a></li>
                                         <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
-                                                <li><a href="candidate.html">Candidates </a></li>
+                                                <li><a href="candidate.php">Candidates </a></li>
                                                 <li><a href="job_details.php">job details </a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>

@@ -72,10 +72,10 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                                 <nav>
                                     <ul id="navigation">
                                         <li><a href="/">home</a></li>
-                                        <li><a href="jobs.php">Browse Job</a></li>
+                                        <li><a href="/jobs.php">Browse Job</a></li>
                                         <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                             <ul class="submenu">
-                                                <li><a href="candidate.html">Candidates </a></li>
+                                                <li><a href="candidate.php">Candidates </a></li>
                                                 <li><a href="job_details.php">job details </a></li>
                                                 <li><a href="elements.html">elements</a></li>
                                             </ul>
@@ -101,9 +101,11 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                                         <a href="/auth/logout.php">Log out</a>
                                     <?php endif; ?>
                                 </div>
-                                <div class="d-none d-lg-block">
-                                    <a class="boxed-btn3" href="#">Post a Job</a>
-                                </div>
+                                <?php if (isset($_SESSION['company_id'])): ?>
+                                    <div class="d-none d-lg-block">
+                                        <a class="boxed-btn3" href="/companies/jobs">Post a Job</a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
@@ -222,7 +224,7 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
             </div>
             <div class="col-lg-6">
                 <div class="brouse_job text-right">
-                    <a href="jobs.php" class="boxed-btn4">Browse More Job</a>
+                    <a href="/jobs.php" class="boxed-btn4">Browse More Job</a>
                 </div>
             </div>
         </div>
@@ -275,7 +277,7 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="brouse_job text-right">
-                    <a href="jobs.php" class="boxed-btn4">Browse More Job</a>
+                    <a href="/jobs.php" class="boxed-btn4">Browse More Job</a>
                 </div>
             </div>
         </div>
@@ -303,12 +305,12 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                 <div class="searching_text">
                     <h3>Looking for a Job?</h3>
                     <p>We provide online instant cash loans with quick approval </p>
-                    <a href="#" class="boxed-btn3">Browse Job</a>
+                    <a href="/jobs.php" class="boxed-btn3">Browse Job</a>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1 col-md-6">
                 <div class="searching_text">
-                    <h3>Looking for a Expert?</h3>
+                    <h3>Looking for an Expert?</h3>
                     <p>We provide online instant cash loans with quick approval </p>
                     <a href="#" class="boxed-btn3">Post a Job</a>
                 </div>

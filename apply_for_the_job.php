@@ -23,15 +23,15 @@ if (in_array($_FILES['image']['type'], $types)) {
     exit();
 }
 
-$stmt = $pdo->prepare("INSERT INTO responses(name, email, url, CV, cover_letter, job_slug)
-VALUES(:name, :email, :url, :CV, :cover_letter, :job_slug)");
+$stmt = $pdo->prepare("INSERT INTO responses(name, email, url, CV, cover_letter, job_id)
+VALUES(:name, :email, :url, :CV, :cover_letter, :job_id)");
 $stmt->execute([
     'name' => $_POST['name'],
     'email' => $_POST['email'],
     'url' => $_POST['url'],
     'CV' => $image,
     'cover_letter' => $_POST['cover_letter'],
-    'job_slug' => $_POST['slug']
+    'job_id' => $_POST['id']
 ]);
 
 header('Location: /job_details.php?slug=' . $_POST['slug']);

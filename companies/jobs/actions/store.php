@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 require $_SERVER['DOCUMENT_ROOT'] . '/functions/slug.php';
@@ -17,16 +19,13 @@ if (in_array($_FILES['image']['type'], $types)) {
     copy($_FILES['image']['tmp_name'], $path . $_FILES['image']['name']);
     $image = '/img/' . $_FILES['image']['name'];
 } else {
-    $image = $pdo->prepare("SELECT image FROM jobs WHERE id = ?");
-    $image->execute([$_POST['id']]);
-    $image = $image->fetch();
-    $image = $image['image'];
+    $image = null;
 }
 
-$stmt = $pdo->prepare("UPDATE jobs SET name = :name, description = :description,
-                  category_id = :category_id, min_salary = :min_salary, max_salary = :max_salary,
-                  qualification_id = :qualification_id, experience_id = :experience_id, job_type_id = :job_type_id,
-                  location_id = :location_id, image = :image, slug = :slug WHERE id = :id");
+$stmt = $pdo->prepare("INSERT INTO jobs(name, description, category_id, min_salary, max_salary,
+                 qualification_id, experience_id, job_type_id, location_id, image, date, slug, company_id)
+VALUES (:name, :description, :category_id, :min_salary, :max_salary,
+        :qualification_id, :experience_id, :job_type_id, :location_id, :image, :date, :slug, :company_id)");
 $stmt->execute([
     'name' => $_POST['name'],
     'description' => $_POST['description'],
@@ -38,8 +37,9 @@ $stmt->execute([
     'job_type_id' => $_POST['job_type'],
     'location_id' => $_POST['location'],
     'image' => $image,
+    'date' => date('Y-m-d'),
     'slug' => empty($_POST['slug']) ? createSlug($_POST['name']) : $_POST['slug'],
-    'id' => $_POST['id']
+    'company_id' => $_SESSION['company_id']
 ]);
 
-header('Location: /admin/jobs/');
+header('Location: /companies/jobs/');

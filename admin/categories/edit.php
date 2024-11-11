@@ -43,11 +43,6 @@ $category = $category->fetch();
         <label for="is_popular">Popular</label>
     </div>
 
-    <div>
-        <input type="checkbox" name="is_popular_search" id="is_popular_search" <?= $category['is_popular_search'] ? 'checked' : '' ?>>
-        <label for="is_popular_search">Popular Search</label>
-    </div>
-
     <input type="submit" value="Edit">
 </form>
 

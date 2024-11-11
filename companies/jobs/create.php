@@ -30,7 +30,7 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 
 <h1>Add job</h1>
 
-<form action="/admin/jobs/actions/store.php" method="post" enctype="multipart/form-data">
+<form action="/companies/jobs/actions/store.php" method="post" enctype="multipart/form-data">
     <input type="text" name="name" placeholder="Name" required>
     <textarea name="description" placeholder="Description" required></textarea>
     <input type="text" name="slug" placeholder="Slug">
