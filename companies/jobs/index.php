@@ -22,6 +22,8 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Jobs</title>
 </head>
 
@@ -35,34 +37,37 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
 
 <body>
 
-<h1>Jobs</h1>
+<div class="container mt-3">
+    <h1 class="text-primary">Jobs</h1>
 
-<a href="/companies/jobs/create.php">Add job</a>
+    <a href="/companies/jobs/create.php" class="btn btn-primary">Add job</a>
+
+</div>
 
 <?php if ($jobs): ?>
-    <table>
+    <table class="table table-striped mt-3">
         <thead>
         <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Minimum salary</th>
-            <th>Maximum salary</th>
-            <th>Qualification</th>
-            <th>Experience</th>
-            <th>Job Type</th>
-            <th>Location</th>
-            <th>Image</th>
-            <th>Date</th>
-            <th>Slug</th>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Category</th>
+            <th scope="col">Minimum salary</th>
+            <th scope="col">Maximum salary</th>
+            <th scope="col">Qualification</th>
+            <th scope="col">Experience</th>
+            <th scope="col">Job Type</th>
+            <th scope="col">Location</th>
+            <th scope="col">Image</th>
+            <th scope="col">Date</th>
+            <th scope="col">Slug</th>
         </tr>
         </thead>
 
         <tbody>
         <?php foreach ($jobs as $job): ?>
             <tr>
-                <td><?= $job['id'] ?></td>
+                <th scope="row"><?= $job['id'] ?></th>
                 <td><?= $job['name'] ?></td>
                 <td><?= $job['description'] ?></td>
                 <td><?= $job['category'] ?></td>
@@ -75,16 +80,20 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
                 <td><?= $job['image'] ?? 'No image' ?></td>
                 <td><?= $job['date'] ?></td>
                 <td><?= $job['slug'] ?></td>
-                <td><a href="/companies/jobs/responses.php?id=<?= $job['id'] ?>">Responses</a></td>
-                <td><a href="/companies/jobs/edit.php?id=<?= $job['id'] ?>">Edit</a></td>
-                <td><a href="/companies/jobs/actions/delete.php?id=<?= $job['id'] ?>">Delete</a></td>
+                <td><a href="/companies/jobs/responses.php?id=<?= $job['id'] ?>" class="btn btn-info">Responses</a></td>
+                <td><a href="/companies/jobs/edit.php?id=<?= $job['id'] ?>" class="btn btn-primary">Edit</a></td>
+                <td><a href="/companies/jobs/actions/delete.php?id=<?= $job['id'] ?>" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
 <?php else: ?>
-    <div style="margin-top: 15px;">You don't have any vacancies yet :(</div>
+    <p style="margin-top: 15px;">You don't have any vacancies yet :(</p>
 <?php endif; ?>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>

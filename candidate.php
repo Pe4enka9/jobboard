@@ -1,6 +1,9 @@
 <?php
+session_start();
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
+
 $candidates = $pdo->query("SELECT сandidates.*, specialties.name AS speciality
 FROM сandidates JOIN specialties
 ON сandidates.speciality_id = specialties.id")->fetchAll();
@@ -83,11 +86,18 @@ ON сandidates.speciality_id = specialties.id")->fetchAll();
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="Appointment">
                                 <div class="phone_num d-none d-xl-block">
-                                    <a href="#">Log in</a>
+                                    <?php if (!isset($_SESSION['company_id'])): ?>
+                                        <a href="/login.php" style="margin-right: 10px;">Log in</a>
+                                        <a href="/register.php" style="margin-right: 10px;">Register</a>
+                                    <?php else: ?>
+                                        <a href="/auth/logout.php">Log out</a>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="d-none d-lg-block">
-                                    <a class="boxed-btn3" href="#">Post a Job</a>
-                                </div>
+                                <?php if (isset($_SESSION['company_id'])): ?>
+                                    <div class="d-none d-lg-block">
+                                        <a class="boxed-btn3" href="/companies/jobs">Post a Job</a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">

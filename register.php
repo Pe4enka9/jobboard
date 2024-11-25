@@ -26,6 +26,8 @@ if (isset($_COOKIE['email'])) {
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Register</title>
 </head>
 
@@ -38,22 +40,33 @@ if (isset($_COOKIE['email'])) {
 
 <body>
 
-<h1>Register</h1>
+<div class="container mt-3">
+    <h1 class="text-primary">Register</h1>
 
-<form action="/auth/register.php" method="post">
-    <input type="text" name="company" placeholder="Company" value="<?= $company ?? '' ?>" required>
-    <input type="email" name="email" placeholder="Email" value="<?= $email ?? '' ?>" required>
-    <input type="password" name="password" placeholder="Password" required>
+    <div class="row mt-5">
+        <div class="col-4">
+            <form action="/auth/register.php" method="post">
+                <input type="text" name="company" class="form-control" placeholder="Company"
+                       value="<?= $company ?? '' ?>" required>
+                <input type="email" name="email" class="form-control" placeholder="Email" value="<?= $email ?? '' ?>"
+                       required>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
 
-    <?php
-    if (isset($_SESSION['error'])) {
-        echo "<p style='color: red'>" . $_SESSION['error'] . "</p>";
-        unset($_SESSION['error']);
-    }
-    ?>
+                <?php
+                if (isset($_SESSION['error'])) {
+                    echo "<p class='text-danger'>" . $_SESSION['error'] . "</p>";
+                    unset($_SESSION['error']);
+                }
+                ?>
 
-    <input type="submit" value="Register">
-</form>
+                <input type="submit" class="btn btn-success" value="Register">
+            </form>
+        </div>
+    </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
@@ -105,11 +107,18 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                         <div class="col-xl-3 col-lg-3 d-none d-lg-block">
                             <div class="Appointment">
                                 <div class="phone_num d-none d-xl-block">
-                                    <a href="#">Log in</a>
+                                    <?php if (!isset($_SESSION['company_id'])): ?>
+                                        <a href="/login.php" style="margin-right: 10px;">Log in</a>
+                                        <a href="/register.php" style="margin-right: 10px;">Register</a>
+                                    <?php else: ?>
+                                        <a href="/auth/logout.php">Log out</a>
+                                    <?php endif; ?>
                                 </div>
-                                <div class="d-none d-lg-block">
-                                    <a class="boxed-btn3" href="#">Post a Job</a>
-                                </div>
+                                <?php if (isset($_SESSION['company_id'])): ?>
+                                    <div class="d-none d-lg-block">
+                                        <a class="boxed-btn3" href="/companies/jobs">Post a Job</a>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                         <div class="col-12">
@@ -151,64 +160,12 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                         <h2><?= $blog['name'] ?></h2>
                         <ul class="blog-info-link mt-3 mb-4">
                             <li><a href="#"><i class="fa fa-user"></i><?= $blog['categories'] ?></a></li>
-                            <li><a href="#"><i class="fa fa-comments"></i><?= $quantities ?> Comments</a></li>
+                            <li><a href="#comments"><i class="fa fa-comments"></i><?= $quantities ?> Comments</a></li>
                         </ul>
-                        <p class="excert">
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                            you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself
-                            at a
-                            fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                            you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself
-                            at a
-                            fraction of the camp price. However, who has the willpower to actually sit through a
-                            self-imposed MCSE training. who has the willpower to actually
-                        </p>
-                        <div class="quote-wrapper">
-                            <div class="quotes">
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand
-                                why you
-                                should have to spend money on boot camp when you can get the MCSE study materials
-                                yourself at
-                                a fraction of the camp price. However, who has the willpower to actually sit through a
-                                self-imposed MCSE training.
-                            </div>
-                        </div>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                            you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself
-                            at a
-                            fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why
-                            you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself
-                            at a
-                            fraction of the camp price. However, who has the willpower to actually sit through a
-                            self-imposed MCSE training. who has the willpower to actually
-                        </p>
+                        <p><?= $blog['description'] ?></p>
                     </div>
                 </div>
                 <div class="navigation-top">
-                    <div class="d-sm-flex justify-content-between text-center">
-                        <p class="like-info"><span class="align-middle"><i class="fa fa-heart"></i></span> Lily and 4
-                            people like this</p>
-                        <div class="col-sm-4 text-center my-2 my-sm-0">
-                            <!-- <p class="comment-count"><span class="align-middle"><i class="fa fa-comment"></i></span> 06 Comments</p> -->
-                        </div>
-                        <ul class="social-icons">
-                            <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                            <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                        </ul>
-                    </div>
                     <div class="navigation-area">
                         <div class="row">
                             <div
@@ -265,15 +222,12 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                         </div>
                     </div>
                 </div>
-                <div class="comments-area">
+                <div class="comments-area" id="comments">
                     <h4><?= $quantities ?> Comments</h4>
                     <?php foreach ($comments as $comment): ?>
                         <div class="comment-list">
                             <div class="single-comment justify-content-between d-flex">
                                 <div class="user justify-content-between d-flex">
-                                    <div class="thumb">
-                                        <img src="img/comment/comment_1.png" alt="">
-                                    </div>
                                     <div class="desc">
                                         <p class="comment"><?= $comment['comment'] ?></p>
                                         <div class="d-flex justify-content-between">
@@ -428,53 +382,6 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                                 <a href="#">illustration</a>
                             </li>
                         </ul>
-                    </aside>
-                    <aside class="single_sidebar_widget instagram_feeds">
-                        <h4 class="widget_title">Instagram Feeds</h4>
-                        <ul class="instagram_row flex-wrap">
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_5.png" alt="">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_6.png" alt="">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_7.png" alt="">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_8.png" alt="">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_9.png" alt="">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <img class="img-fluid" src="img/post/post_10.png" alt="">
-                                </a>
-                            </li>
-                        </ul>
-                    </aside>
-                    <aside class="single_sidebar_widget newsletter_widget">
-                        <h4 class="widget_title">Newsletter</h4>
-                        <form action="#">
-                            <div class="form-group">
-                                <input type="email" class="form-control" onfocus="this.placeholder = ''"
-                                       onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
-                            </div>
-                            <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
-                                    type="submit">Subscribe
-                            </button>
-                        </form>
                     </aside>
                 </div>
             </div>
