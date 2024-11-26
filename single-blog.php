@@ -99,7 +99,7 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                                                 <li><a href="single-blog.html">single-blog</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="contact.php">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>

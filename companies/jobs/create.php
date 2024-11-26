@@ -3,10 +3,10 @@
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
-$qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
-$experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
-$jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
-$locations = $pdo->query("SELECT * FROM location")->fetchAll();
+$qualifications = $pdo->query("SELECT * FROM qualifications")->fetchAll();
+$experiences = $pdo->query("SELECT * FROM experiences")->fetchAll();
+$jobTypes = $pdo->query("SELECT * FROM job_types")->fetchAll();
+$locations = $pdo->query("SELECT * FROM locations")->fetchAll();
 ?>
 
 <!doctype html>
@@ -21,13 +21,6 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
     <title>Add job</title>
 </head>
 
-<style>
-    input, select, label, textarea {
-        display: block;
-        margin-bottom: 15px;
-    }
-</style>
-
 <body>
 
 <div class="container mt-3">
@@ -36,7 +29,9 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
     <div class="row mt-5">
         <div class="col-4">
             <form action="/companies/jobs/actions/store.php" method="post" enctype="multipart/form-data">
-                <input type="text" name="name" class="form-control" placeholder="Name" required>
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Name" required>
+                </div>
                 <input type="text" name="slug" class="form-control" placeholder="Slug">
 
                 <select name="category" class="form-select">
@@ -74,8 +69,7 @@ $locations = $pdo->query("SELECT * FROM location")->fetchAll();
 
                 <input type="file" class="form-control" name="image">
 
-                <textarea name="description" class="form-control" id="editor" placeholder="Description"
-                          required></textarea>
+                <textarea name="description" id="editor" placeholder="Description" required></textarea>
 
                 <input type="submit" class="btn btn-success mt-3" value="Add">
             </form>

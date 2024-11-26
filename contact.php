@@ -1,22 +1,3 @@
-<?php
-session_start();
-
-/** @var PDO $pdo */
-$pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
-
-$job = $pdo->prepare("SELECT jobs.*, categories.name AS category, qualifications.level AS qualification, experiences.name AS experience,
-job_types.name AS job_type, locations.name AS location
-FROM jobs
-JOIN categories ON jobs.category_id = categories.id
-JOIN qualifications ON jobs.qualification_id = qualifications.id
-JOIN experiences ON jobs.experience_id = experiences.id
-JOIN job_types ON jobs.job_type_id = job_types.id
-JOIN locations ON jobs.location_id = locations.id
-WHERE jobs.slug = ?");
-$job->execute([$_GET['slug'] ?? '']);
-$job = $job->fetch();
-?>
-
 <!doctype html>
 <html class="no-js" lang="zxx">
 
@@ -28,7 +9,6 @@ $job = $job->fetch();
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -41,8 +21,8 @@ $job = $job->fetch();
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/gijgo.css">
     <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/slicknav.css">
-
     <link rel="stylesheet" href="css/style.css">
     <!-- <link rel="stylesheet" href="css/responsive.css"> -->
 </head>
@@ -65,114 +45,115 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
         <div class="row">
             <div class="col-xl-12">
                 <div class="bradcam_text">
-                    <h3><?= $job['name'] ?></h3>
+                    <h3>contact</h3>
                 </div>
             </div>
         </div>
     </div>
 </div>
 <!--/ bradcam_area  -->
-
-<div class="job_details_area">
+<!-- ================ contact section start ================= -->
+<section class="contact-section section_padding">
     <div class="container">
+        <div class="d-none d-sm-block mb-5 pb-4">
+            <div id="map" style="height: 480px;"></div>
+            <script>
+                function initMap() {
+                    var uluru = {lat: -25.363, lng: 131.044};
+                    var grayStyles = [
+                        {
+                            featureType: "all",
+                            stylers: [
+                                {saturation: -90},
+                                {lightness: 50}
+                            ]
+                        },
+                        {elementType: 'labels.text.fill', stylers: [{color: '#ccdee9'}]}
+                    ];
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        center: {lat: -31.197, lng: 150.744},
+                        zoom: 9,
+                        styles: grayStyles,
+                        scrollwheel: false
+                    });
+                }
+
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&callback=initMap"></script>
+
+        </div>
+
+
         <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Get in Touch</h2>
+            </div>
             <div class="col-lg-8">
-                <div class="job_details_header">
-                    <div class="single_jobs white-bg d-flex justify-content-between">
-                        <div class="jobs_left d-flex align-items-center">
-                            <div class="thumb">
-                                <img src="<?= $job['image'] ?>" alt="">
+                <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm"
+                      novalidate="novalidate">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+
+                                <textarea class="form-control w-100" name="message" id="message" cols="30" rows="9"
+                                          onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'"
+                                          placeholder='Enter Message'></textarea>
                             </div>
-                            <div class="jobs_conetent">
-                                <a href="#"><h4><?= $job['name'] ?></h4></a>
-                                <div class="links_locat d-flex align-items-center">
-                                    <div class="location">
-                                        <p><i class="fa fa-map-marker"></i><?= $job['location'] ?></p>
-                                    </div>
-                                    <div class="location">
-                                        <p><i class="fa fa-clock-o"></i><?= $job['job_type'] ?></p>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input class="form-control" name="name" id="name" type="text"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter your name'"
+                                       placeholder='Enter your name'>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <input class="form-control" name="email" id="email" type="email"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
+                                       placeholder='Enter email address'>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input class="form-control" name="subject" id="subject" type="text"
+                                       onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'"
+                                       placeholder='Enter Subject'>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="descript_wrap white-bg"><?= $job['description'] ?></div>
-                <div class="apply_job_form white-bg">
-                    <h4>Apply for the job</h4>
-                    <form action="/apply_for_the_job.php" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <input type="hidden" name="id" value="<?= $job['id'] ?>">
-                            <input type="hidden" name="slug" value="<?= $job['slug'] ?>">
-                            <div class="col-md-6">
-                                <div class="input_field">
-                                    <input type="text" name="name" placeholder="Your name">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="input_field">
-                                    <input type="email" name="email" placeholder="Email">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="input_field">
-                                    <input type="url" name="url" placeholder="Website/Portfolio link">
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <button type="button" id="inputGroupFileAddon03"><i class="fa fa-cloud-upload"
-                                                                                            aria-hidden="true"></i>
-                                        </button>
-                                    </div>
-                                    <div class="custom-file">
-                                        <input type="file" name="image" class="custom-file-input" id="inputGroupFile03"
-                                               aria-describedby="inputGroupFileAddon03">
-                                        <label class="custom-file-label" for="inputGroupFile03">Upload CV</label>
-                                    </div>
-                                </div>
-                                <?php
-                                if (isset($_SESSION['error'])) {
-                                    echo "<p style='color: #f00;'>" . $_SESSION['error'] . "</p>";
-                                    unset($_SESSION['error']);
-                                }
-                                ?>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="input_field">
-                                    <textarea name="cover_letter" cols="30" rows="10"
-                                              placeholder="Cover letter"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="submit_btn">
-                                    <button class="boxed-btn3 w-100" type="submit">Apply Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="button button-contactForm btn_4 boxed-btn">Send Message</button>
+                    </div>
+                </form>
             </div>
             <div class="col-lg-4">
-                <div class="job_sumary">
-                    <div class="job_content">
-                        <ul>
-                            <li>Published on: <span><?= date('d F Y', strtotime($job['date'])) ?></span></li>
-                            <li>Category: <span><?= $job['category'] ?></span></li>
-                            <li>Qualification: <span><?= $job['qualification'] ?> level</span></li>
-                            <li>Experience: <span><?= $job['experience'] ?></span></li>
-                            <li>Salary: <span><?= $job['min_salary'] ?>k - <?= $job['max_salary'] ?>k/y</span></li>
-                            <li>Location: <span><?= $job['location'] ?></span></li>
-                            <li>Job Nature: <span><?= $job['job_type'] ?></span></li>
-                        </ul>
+                <div class="media contact-info">
+                    <span class="contact-info__icon"><i class="ti-home"></i></span>
+                    <div class="media-body">
+                        <h3>Buttonwood, California.</h3>
+                        <p>Rosemead, CA 91770</p>
+                    </div>
+                </div>
+                <div class="media contact-info">
+                    <span class="contact-info__icon"><i class="ti-tablet"></i></span>
+                    <div class="media-body">
+                        <h3>00 (440) 9865 562</h3>
+                        <p>Mon to Fri 9am to 6pm</p>
+                    </div>
+                </div>
+                <div class="media contact-info">
+                    <span class="contact-info__icon"><i class="ti-email"></i></span>
+                    <div class="media-body">
+                        <h3>support@colorlib.com</h3>
+                        <p>Send us your query anytime!</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
+</section>
+<!-- ================ contact section end ================= -->
 <!-- footer start -->
 <footer class="footer">
     <div class="footer_top">
@@ -280,7 +261,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
 </footer>
 <!--/ footer end  -->
 
-<!-- link that opens popup -->
+
 <!-- JS here -->
 <script src="js/vendor/modernizr-3.5.0.min.js"></script>
 <script src="js/vendor/jquery-1.12.4.min.js"></script>
@@ -301,14 +282,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
 <script src="js/plugins.js"></script>
 <script src="js/gijgo.min.js"></script>
 
-
 <!--contact js-->
 <script src="js/contact.js"></script>
 <script src="js/jquery.ajaxchimp.min.js"></script>
 <script src="js/jquery.form.js"></script>
 <script src="js/jquery.validate.min.js"></script>
 <script src="js/mail-script.js"></script>
-
 
 <script src="js/main.js"></script>
 </body>

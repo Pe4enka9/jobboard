@@ -4,14 +4,14 @@ session_start();
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-$jobs = $pdo->query("SELECT jobs.*, categories.name AS category, qualification.level AS qualification, experience.name AS experience,
-job_type.name AS job_type, location.name AS location
+$jobs = $pdo->query("SELECT jobs.*, categories.name AS category, qualifications.level AS qualification, experiences.name AS experience,
+job_types.name AS job_type, locations.name AS location
 FROM jobs
 JOIN categories ON jobs.category_id = categories.id
-JOIN qualification ON jobs.qualification_id = qualification.id
-JOIN experience ON jobs.experience_id = experience.id
-JOIN job_type ON jobs.job_type_id = job_type.id
-JOIN location ON jobs.location_id = location.id
+JOIN qualifications ON jobs.qualification_id = qualifications.id
+JOIN experiences ON jobs.experience_id = experiences.id
+JOIN job_types ON jobs.job_type_id = job_types.id
+JOIN locations ON jobs.location_id = locations.id
 WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
 ?>
 
@@ -77,7 +77,7 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
                 <td><?= $job['experience'] ?></td>
                 <td><?= $job['job_type'] ?></td>
                 <td><?= $job['location'] ?></td>
-                <td><?= $job['image'] ?? 'No image' ?></td>
+                <td><img src="<?= $job['image'] ?? '/img/no_image.jpg' ?>" alt="" width="80"></td>
                 <td><?= $job['date'] ?></td>
                 <td><?= $job['slug'] ?></td>
                 <td><a href="/companies/jobs/responses.php?id=<?= $job['id'] ?>" class="btn btn-info">Responses</a></td>
