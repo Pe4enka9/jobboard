@@ -1,5 +1,5 @@
 <?php
-session_start();
+require $_SERVER['DOCUMENT_ROOT'] . '/check_user.php';
 
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
@@ -26,14 +26,6 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Jobs</title>
 </head>
-
-<style>
-    table, th, td {
-        padding: 5px;
-        border: 1px solid #000;
-        border-collapse: collapse;
-    }
-</style>
 
 <body>
 

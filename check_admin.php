@@ -10,6 +10,5 @@ $isAdmin = $stmt->fetch();
 
 if (!$isAdmin['is_admin']) {
     header('Location: /');
+    exit();
 }
-
-global $pdo;

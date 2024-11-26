@@ -1,4 +1,6 @@
 <?php
+require $_SERVER['DOCUMENT_ROOT'] . '/check_user.php';
+
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
