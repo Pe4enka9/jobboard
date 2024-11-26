@@ -1,6 +1,6 @@
 <?php
-/** @var PDO $pdo */
-$pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
+global $pdo;
+require $_SERVER['DOCUMENT_ROOT'] . '/check_admin.php';
 
 $category = $pdo->prepare("SELECT * FROM categories WHERE id = ?");
 $category->execute([$_GET['id'] ?? '']);
