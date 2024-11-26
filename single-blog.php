@@ -30,6 +30,11 @@ $categories = $pdo->query("SELECT blog_category.blog_category_id AS category_id,
 FROM blog_category JOIN blog_categories
 ON blog_category.blog_category_id = blog_categories.id
 GROUP BY blog_category.blog_category_id")->fetchAll();
+
+$recentPosts = $pdo->query("SELECT name, image, slug, created_at
+FROM blogs
+ORDER BY created_at DESC
+LIMIT 4")->fetchAll();
 ?>
 
 <!doctype html>
@@ -67,70 +72,9 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
     your browser</a> to improve your experience and security.</p>
 <![endif]-->
 <!-- header-start -->
-<header>
-    <div class="header-area ">
-        <div id="sticky-header" class="main-header-area">
-            <div class="container-fluid ">
-                <div class="header_bottom_border">
-                    <div class="row align-items-center">
-                        <div class="col-xl-3 col-lg-2">
-                            <div class="logo">
-                                <a href="index.php">
-                                    <img src="img/logo.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-xl-6 col-lg-7">
-                            <div class="main-menu  d-none d-lg-block">
-                                <nav>
-                                    <ul id="navigation">
-                                        <li><a href="index.php">home</a></li>
-                                        <li><a href="jobs.php">Browse Job</a></li>
-                                        <li><a href="#">pages <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="candidate.php">Candidates </a></li>
-                                                <li><a href="job_details.php">job details </a></li>
-                                                <li><a href="elements.html">elements</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="blog.php">blog</a></li>
-                                                <li><a href="single-blog.html">single-blog</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="contact.php">Contact</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 d-none d-lg-block">
-                            <div class="Appointment">
-                                <div class="phone_num d-none d-xl-block">
-                                    <?php if (!isset($_SESSION['company_id'])): ?>
-                                        <a href="/login.php" style="margin-right: 10px;">Log in</a>
-                                        <a href="/register.php" style="margin-right: 10px;">Register</a>
-                                    <?php else: ?>
-                                        <a href="/auth/logout.php">Log out</a>
-                                    <?php endif; ?>
-                                </div>
-                                <?php if (isset($_SESSION['company_id'])): ?>
-                                    <div class="d-none d-lg-block">
-                                        <a class="boxed-btn3" href="/companies/jobs">Post a Job</a>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="mobile_menu d-block d-lg-none"></div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</header>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
+?>
 <!-- header-end -->
 
 <!-- bradcam_area  -->
@@ -317,42 +261,20 @@ GROUP BY blog_category.blog_category_id")->fetchAll();
                     </aside>
                     <aside class="single_sidebar_widget popular_post_widget">
                         <h3 class="widget_title">Recent Post</h3>
-                        <div class="media post_item">
-                            <img src="img/post/post_1.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>From life was you fish...</h3>
-                                </a>
-                                <p>January 12, 2019</p>
+                        <?php foreach ($recentPosts as $post): ?>
+                            <div class="media post_item">
+                                <div style="width: 80px;height: 80px;">
+                                    <img src="<?= $post['image'] ?>" alt="post" style="object-fit: cover;" width="100%"
+                                         height="100%">
+                                </div>
+                                <div class="media-body">
+                                    <a href="/single-blog.php?slug=<?= $post['slug'] ?>">
+                                        <h3><?= $post['name'] ?></h3>
+                                    </a>
+                                    <p><?= date('F d, Y', strtotime($post['created_at'])) ?></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_2.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>The Amazing Hubble</h3>
-                                </a>
-                                <p>02 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_3.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Astronomy Or Astrology</h3>
-                                </a>
-                                <p>03 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_4.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.html">
-                                    <h3>Asteroids telescope</h3>
-                                </a>
-                                <p>01 Hours ago</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </aside>
                     <aside class="single_sidebar_widget tag_cloud_widget">
                         <h4 class="widget_title">Tag Clouds</h4>

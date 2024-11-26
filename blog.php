@@ -7,13 +7,15 @@ $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 $keywords = $_GET['keywords'] ?? '';
 $category = $_GET['category'] ?? '';
 
-$sql = "SELECT blogs.name AS name,
-       blogs.short_description AS short_description,
-       blogs.description AS description,
-       blogs.created_at AS created_at,
-       blogs.image AS image,
-       blogs.slug AS slug,
-       GROUP_CONCAT(blog_categories.name SEPARATOR ', ') AS categories
+$sql = "SELECT
+    blogs.id AS blog_id,
+    blogs.name AS name,
+    blogs.short_description AS short_description,
+    blogs.description AS description,
+    blogs.created_at AS created_at,
+    blogs.image AS image,
+    blogs.slug AS slug,
+    GROUP_CONCAT(blog_categories.name SEPARATOR ', ') AS categories
 FROM blog_category
 JOIN blogs ON blog_category.blog_id = blogs.id
 JOIN blog_categories ON blog_category.blog_category_id = blog_categories.id
@@ -31,12 +33,25 @@ $blogs = $pdo->prepare($sql);
 $blogs->execute($params);
 $blogs = $blogs->fetchAll();
 
-$categories = $pdo->query("SELECT blog_category.blog_category_id AS category_id,
-       blog_categories.name AS category,
-       COUNT(blog_category.blog_category_id) AS quantity
+$categories = $pdo->query("SELECT
+    blog_category.blog_category_id AS category_id,
+    blog_categories.name AS category,
+    COUNT(blog_category.blog_category_id) AS quantity
 FROM blog_category JOIN blog_categories
 ON blog_category.blog_category_id = blog_categories.id
 GROUP BY blog_category.blog_category_id")->fetchAll();
+
+$recentPosts = $pdo->query("SELECT name, image, slug, created_at
+FROM blogs
+ORDER BY created_at DESC
+LIMIT 4")->fetchAll();
+
+$blogComments = $pdo->query("SELECT
+    blogs.id,
+    COUNT(comments.blog_id) AS comments
+FROM blogs
+JOIN comments ON blogs.id = comments.blog_id
+GROUP BY blogs.id")->fetchAll();
 ?>
 
 <!doctype html>
@@ -118,7 +133,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
                                 <p><?= $blog['short_description'] ?></p>
                                 <ul class="blog-info-link">
                                     <li><a href="#"><i class="fa fa-user"></i><?= $blog['categories'] ?></a></li>
-                                    <li><a href="#"><i class="fa fa-comments"></i> 03 Comments</a></li>
+                                    <?php foreach ($blogComments as $comment): ?>
+                                        <?php if ($comment['id'] == $blog['blog_id']): ?>
+                                            <li><a href="#"><i class="fa fa-comments"></i> <?= $comment['comments'] ?>
+                                                    Comments</a></li>
+                                        <?php endif; ?>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                         </article>
@@ -183,42 +203,20 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
 
                     <aside class="single_sidebar_widget popular_post_widget">
                         <h3 class="widget_title">Recent Post</h3>
-                        <div class="media post_item">
-                            <img src="img/post/post_1.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.php">
-                                    <h3>From life was you fish...</h3>
-                                </a>
-                                <p>January 12, 2019</p>
+                        <?php foreach ($recentPosts as $post): ?>
+                            <div class="media post_item">
+                                <div style="width: 80px;height: 80px;">
+                                    <img src="<?= $post['image'] ?>" alt="post" style="object-fit: cover;" width="100%"
+                                         height="100%">
+                                </div>
+                                <div class="media-body">
+                                    <a href="/single-blog.php?slug=<?= $post['slug'] ?>">
+                                        <h3><?= $post['name'] ?></h3>
+                                    </a>
+                                    <p><?= date('F d, Y', strtotime($post['created_at'])) ?></p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_2.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.php">
-                                    <h3>The Amazing Hubble</h3>
-                                </a>
-                                <p>02 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_3.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.php">
-                                    <h3>Astronomy Or Astrology</h3>
-                                </a>
-                                <p>03 Hours ago</p>
-                            </div>
-                        </div>
-                        <div class="media post_item">
-                            <img src="img/post/post_4.png" alt="post">
-                            <div class="media-body">
-                                <a href="single-blog.php">
-                                    <h3>Asteroids telescope</h3>
-                                </a>
-                                <p>01 Hours ago</p>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </aside>
                     <aside class="single_sidebar_widget tag_cloud_widget">
                         <h4 class="widget_title">Tag Clouds</h4>
