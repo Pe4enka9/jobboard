@@ -2,12 +2,12 @@
 global $pdo;
 require $_SERVER['DOCUMENT_ROOT'] . '/check_admin.php';
 
-$categories = $pdo->query("SELECT
-    categories.*,
+$companies = $pdo->query("SELECT
+    companies.*,
     SUM(jobs.available_position) AS total_positions
-FROM categories
-LEFT JOIN jobs ON categories.id = jobs.category_id
-GROUP BY categories.id, categories.name")->fetchAll();
+FROM companies
+LEFT JOIN jobs ON companies.id = jobs.company_id
+GROUP BY companies.id, companies.company")->fetchAll();
 ?>
 
 <!doctype html>
@@ -19,35 +19,34 @@ GROUP BY categories.id, categories.name")->fetchAll();
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Categories</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Companies</title>
 </head>
-
 <body>
 
 <div class="container mt-3">
-    <h1 class="text-primary">Categories</h1>
+    <a href="/admin/" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Back</a>
 
-    <a href="/admin/categories/create.php" class="btn btn-primary mt-3">Add category</a>
+    <h1 class="text-primary mt-3">Companies</h1>
 
     <table class="table table-striped mt-3">
         <thead>
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Name</th>
-            <th scope="col">Popular</th>
+            <th scope="col">Company</th>
+            <th scope="col">Top</th>
             <th scope="col">Available Position</th>
         </tr>
         </thead>
 
         <tbody>
-        <?php foreach ($categories as $category): ?>
+        <?php foreach ($companies as $company): ?>
             <tr>
-                <th scope="row"><?= $category['id'] ?></th>
-                <td><?= $category['name'] ?></td>
-                <td><?= $category['is_popular'] ? 'Yes' : 'No' ?></td>
-                <td><?= $category['total_positions'] ?? '0' ?></td>
-                <td><a href="/admin/categories/edit.php?id=<?= $category['id'] ?>" class="btn btn-primary">Edit</a></td>
-                <td><a href="/admin/categories/actions/delete.php?id=<?= $category['id'] ?>" class="btn btn-danger">Delete</a></td>
+                <th scope="row"><?= $company['id'] ?></th>
+                <td><?= $company['company'] ?></td>
+                <td><?= $company['is_top'] ? 'Yes' : 'No' ?></td>
+                <td><?= $company['total_positions'] ?? '0' ?></td>
+                <td><a href="/admin/companies/edit.php?id=<?= $company['id'] ?>" class="btn btn-primary">Edit</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>

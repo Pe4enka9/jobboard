@@ -36,7 +36,6 @@ $category = $category->fetch();
 <form action="/admin/categories/actions/update.php" method="post">
     <input type="hidden" name="id" value="<?= $category['id'] ?>">
     <input type="text" name="name" placeholder="Name" value="<?= $category['name'] ?>">
-    <input type="number" name="available_position" placeholder="Available Position" value="<?= $category['available_position'] ?>">
 
     <div>
         <input type="checkbox" name="is_popular" id="is_popular" <?= $category['is_popular'] ? 'checked' : '' ?>>

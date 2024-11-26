@@ -4,13 +4,13 @@ session_start();
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-// Получаем все данные для полей select
 $categories = $pdo->query("SELECT * FROM categories")->fetchAll();
-$testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
-$locations = $pdo->query("SELECT * FROM location")->fetchAll();
-$experiences = $pdo->query("SELECT * FROM experience")->fetchAll();
-$jobTypes = $pdo->query("SELECT * FROM job_type")->fetchAll();
-$qualifications = $pdo->query("SELECT * FROM qualification")->fetchAll();
+$testimonials = $pdo->query("SELECT * FROM testimonials")->fetchAll();
+$locations = $pdo->query("SELECT * FROM locations")->fetchAll();
+$experiences = $pdo->query("SELECT * FROM experiences")->fetchAll();
+$jobTypes = $pdo->query("SELECT * FROM job_types")->fetchAll();
+$qualifications = $pdo->query("SELECT * FROM qualifications")->fetchAll();
+$companies = $pdo->query("SELECT * FROM companies")->fetchAll();
 
 $filters = [
     'location' => $_GET['location'] ?? 'all',
@@ -21,6 +21,7 @@ $filters = [
     'keywords' => $_GET['keywords'] ?? '',
     'min_salary' => $_GET['min_salary'] ?? '',
     'max_salary' => $_GET['max_salary'] ?? '',
+    'company' => $_GET['company'] ?? 'all',
 ];
 
 $minSalary = round(24600 * (float)$filters['min_salary'] / 100);
@@ -28,10 +29,10 @@ $maxSalary = round(24600 * (float)$filters['max_salary'] / 100);
 
 $sorting = $_GET['sorting'] ?? 'most_recent';
 
-$sql = "SELECT jobs.*, location.name AS location, job_type.name AS job_type
+$sql = "SELECT jobs.*, locations.name AS location, job_types.name AS job_type
         FROM jobs
-        JOIN location ON jobs.location_id = location.id
-        JOIN job_type ON jobs.job_type_id = job_type.id";
+        JOIN locations ON jobs.location_id = locations.id
+        JOIN job_types ON jobs.job_type_id = job_types.id";
 
 $whereClauses = [];
 $params = [];
@@ -55,6 +56,10 @@ if ($filters['job_type'] !== 'all') {
 if ($filters['qualification'] !== 'all') {
     $whereClauses[] = "jobs.qualification_id = :qualification";
     $params['qualification'] = $filters['qualification'];
+}
+if ($filters['company'] !== 'all') {
+    $whereClauses[] = "jobs.company_id = :company";
+    $params['company'] = $filters['company'];
 }
 if (!empty($filters['keywords'])) {
     $whereClauses[] = "jobs.name LIKE :keywords";
@@ -371,7 +376,8 @@ $jobs = $stmt->fetchAll();
                                             <img src="<?= $job['image'] ?>" alt="">
                                         </div>
                                         <div class="jobs_conetent">
-                                            <a href="/job_details.php?slug=<?= $job['slug'] ?>"><h4><?= $job['name'] ?></h4>
+                                            <a href="/job_details.php?slug=<?= $job['slug'] ?>">
+                                                <h4><?= $job['name'] ?></h4>
                                             </a>
                                             <div class="links_locat d-flex align-items-center">
                                                 <div class="location">
@@ -391,7 +397,6 @@ $jobs = $stmt->fetchAll();
                                     </div>
                                     <div class="jobs_right">
                                         <div class="apply_now">
-                                            <a class="heart_mark" href="#"> <i class="fa fa-heart"></i> </a>
                                             <a href="/job_details.php?slug=<?= $job['slug'] ?>" class="boxed-btn3">Apply
                                                 Now</a>
                                         </div>

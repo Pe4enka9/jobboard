@@ -4,18 +4,32 @@ session_start();
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-$categories = $pdo->query("SELECT * FROM categories WHERE is_popular IS TRUE")->fetchAll();
-$testimonials = $pdo->query("SELECT * FROM testimonial")->fetchAll();
-$locations = $pdo->query("SELECT * FROM location")->fetchAll();
+$categories = $pdo->query("SELECT * FROM categories")->fetchAll();
+$popularCategories = $pdo->query("SELECT
+    categories.id,
+    categories.name,
+    SUM(jobs.available_position) AS total_positions
+FROM categories
+LEFT JOIN jobs ON categories.id = jobs.category_id
+WHERE categories.is_popular IS TRUE
+GROUP BY categories.id, categories.name")->fetchAll();
+$testimonials = $pdo->query("SELECT * FROM testimonials")->fetchAll();
+$locations = $pdo->query("SELECT * FROM locations")->fetchAll();
 
-$jobs = $pdo->query("SELECT jobs.*, location.name AS location, job_type.name AS job_type
+$jobs = $pdo->query("SELECT jobs.*, locations.name AS location, job_types.name AS job_type
 FROM jobs
-JOIN location ON jobs.location_id = location.id
-JOIN job_type ON jobs.job_type_id = job_type.id
+JOIN locations ON jobs.location_id = locations.id
+JOIN job_types ON jobs.job_type_id = job_types.id
 ORDER BY jobs.date DESC
 LIMIT 5")->fetchAll();
 
-$companies = $pdo->query("SELECT company, image, available_position FROM companies LIMIT 4")->fetchAll();
+$companies = $pdo->query("SELECT
+    companies.*,
+    SUM(jobs.available_position) AS total_positions
+FROM companies
+LEFT JOIN jobs ON companies.id = jobs.company_id
+WHERE companies.is_top IS TRUE
+GROUP BY companies.id, companies.company")->fetchAll();
 ?>
 <!doctype html>
 <html class="no-js" lang="zxx">
@@ -62,7 +76,7 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                     <div class="row align-items-center">
                         <div class="col-xl-3 col-lg-2">
                             <div class="logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="img/logo.png" alt="">
                                 </a>
                             </div>
@@ -73,20 +87,9 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                                     <ul id="navigation">
                                         <li><a href="/">home</a></li>
                                         <li><a href="/jobs.php">Browse Job</a></li>
-                                        <li><a href="#">pages <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="candidate.php">Candidates </a></li>
-                                                <li><a href="job_details.php">job details </a></li>
-                                                <li><a href="elements.html">elements</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                            <ul class="submenu">
-                                                <li><a href="blog.php">blog</a></li>
-                                                <li><a href="single-blog.php">single-blog</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="contact.html">Contact</a></li>
+                                        <li><a href="/candidate.php">Candidates</a></li>
+                                        <li><a href="/blog.php">blog</a></li>
+                                        <li><a href="/contact.html">Contact</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -131,9 +134,6 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                         <h3 class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".3s">Find your Dream Job</h3>
                         <p class="wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".4s">We provide online instant
                             cash loans with quick approval that suit your term length</p>
-                        <div class="sldier_btn wow fadeInLeft" data-wow-duration="1s" data-wow-delay=".5s">
-                            <a href="#" class="boxed-btn3">Upload your Resume</a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -200,11 +200,11 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
             </div>
         </div>
         <div class="row">
-            <?php foreach ($categories as $category): ?>
+            <?php foreach ($popularCategories as $category): ?>
                 <div class="col-lg-4 col-xl-3 col-md-6">
                     <div class="single_catagory">
                         <a href="/jobs.php?category=<?= $category['id'] ?>"><h4><?= $category['name'] ?></h4></a>
-                        <p><span><?= $category['available_position'] ?></span> Available position</p>
+                        <p><span><?= $category['total_positions'] ?></span> Available position</p>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -251,7 +251,6 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                             </div>
                             <div class="jobs_right">
                                 <div class="apply_now">
-                                    <a class="heart_mark" href="#"> <i class="ti-heart"></i> </a>
                                     <a href="/job_details.php?slug=<?= $job['slug'] ?>" class="boxed-btn3">Apply Now</a>
                                 </div>
                                 <div class="date">
@@ -288,8 +287,8 @@ $companies = $pdo->query("SELECT company, image, available_position FROM compani
                         <div class="thumb">
                             <img src="<?= $company['image'] ?>" alt="">
                         </div>
-                        <a href="jobs.php"><h3><?= $company['company'] ?></h3></a>
-                        <p><span><?= $company['available_position'] ?></span> Available position</p>
+                        <a href="/jobs.php?company=<?= $company['id'] ?>"><h3><?= $company['company'] ?></h3></a>
+                        <p><span><?= $company['total_positions'] ?></span> Available position</p>
                     </div>
                 </div>
             <?php endforeach; ?>

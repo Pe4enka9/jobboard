@@ -19,6 +19,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/check_admin.php';
     <h1 class="text-primary">Admin</h1>
     <a href="/admin/categories/" class="btn btn-outline-primary">Categories</a>
     <a href="/admin/blogs/" class="btn btn-outline-primary">Blogs</a>
+    <a href="/admin/companies/" class="btn btn-outline-primary">Companies</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
