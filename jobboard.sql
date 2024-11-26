@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.2
--- Время создания: Ноя 12 2024 г., 21:25
+-- Время создания: Ноя 26 2024 г., 22:24
 -- Версия сервера: 8.2.0
 -- Версия PHP: 8.3.6
 
@@ -32,7 +32,7 @@ CREATE TABLE `blogs` (
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `short_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` date NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -42,12 +42,13 @@ CREATE TABLE `blogs` (
 --
 
 INSERT INTO `blogs` (`id`, `name`, `short_description`, `description`, `created_at`, `image`, `slug`) VALUES
-(1, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_1.png', 'Google-inks-pact-for-new-35storey-office'),
-(2, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_2.png', 'Google-inks-pact-for-new-35storey-office1'),
-(3, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_3.png', 'Google-inks-pact-for-new-35storey-office2'),
-(4, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_4.png', 'Google-inks-pact-for-new-35storey-office3'),
-(5, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_5.png', 'Google-inks-pact-for-new-35storey-office4'),
-(6, 'Hello', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-11', '/img/blog/single_blog_5.png', 'Hello');
+(1, 'Google inks pact for new 35-storey office', 'Hello', '<h1>MCSE boot camps have its supporters and its detractors.</h1>\r\n\r\n<p>Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower</p>\r\n', '2024-11-10 17:00:00', '/img/blog/single_blog_1.png', 'Google-inks-pact-for-new-35storey-office'),
+(2, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-10 17:00:00', '/img/blog/single_blog_2.png', 'Google-inks-pact-for-new-35storey-office1'),
+(3, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-10 17:00:00', '/img/blog/single_blog_3.png', 'Google-inks-pact-for-new-35storey-office2'),
+(4, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-10 17:00:00', '/img/blog/single_blog_4.png', 'Google-inks-pact-for-new-35storey-office3'),
+(5, 'Google inks pact for new 35-storey office', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-10 17:00:00', '/img/blog/single_blog_5.png', 'Google-inks-pact-for-new-35storey-office4'),
+(6, 'Hello', 'That dominion stars lights dominion divide years for fourth have don\'t star is that he earth it first without heaven in place seed it second morning saying.', 'MCSE boot camps have its supporters and its detractors. Some people do not understand why you should have to spend money on boot camp when you can get the MCSE study materials yourself at fraction of the camp price. However, who has the willpower', '2024-11-10 17:00:00', '/img/blog/single_blog_5.png', 'Hello'),
+(23, 'New blog', 'new blog', '<h1>It&#39;s new blog!</h1>\r\n', '2024-11-26 15:02:40', '/img/blog/blog_1.png', 'New-blog');
 
 -- --------------------------------------------------------
 
@@ -86,14 +87,16 @@ CREATE TABLE `blog_category` (
 --
 
 INSERT INTO `blog_category` (`id`, `blog_id`, `blog_category_id`) VALUES
-(1, 1, 1),
 (2, 2, 1),
 (3, 3, 1),
 (4, 4, 1),
 (5, 5, 1),
-(6, 1, 2),
 (7, 2, 3),
-(8, 6, 3);
+(8, 6, 3),
+(79, 1, 1),
+(80, 1, 2),
+(81, 1, 3),
+(82, 23, 1);
 
 -- --------------------------------------------------------
 
@@ -104,24 +107,23 @@ INSERT INTO `blog_category` (`id`, `blog_id`, `blog_category_id`) VALUES
 CREATE TABLE `categories` (
   `id` int NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `is_popular` tinyint(1) NOT NULL DEFAULT '0',
-  `available_position` int UNSIGNED NOT NULL
+  `is_popular` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `categories`
 --
 
-INSERT INTO `categories` (`id`, `name`, `is_popular`, `available_position`) VALUES
-(1, 'Design & Creative', 1, 50),
-(2, 'Marketing', 1, 100),
-(3, 'Telemarketing', 1, 150),
-(4, 'Software & Web', 1, 45),
-(5, 'Administration', 1, 32),
-(6, 'Teaching & Education', 1, 28),
-(7, 'Engineering', 1, 13),
-(8, 'Garments / Textile', 1, 354),
-(11, 'dasd', 0, 123);
+INSERT INTO `categories` (`id`, `name`, `is_popular`) VALUES
+(1, 'Design & Creative', 1),
+(2, 'Marketing', 1),
+(3, 'Telemarketing', 0),
+(4, 'Software & Web', 0),
+(5, 'Administration', 0),
+(6, 'Teaching & Education', 0),
+(7, 'Engineering', 1),
+(8, 'Garments / Textile', 0),
+(11, 'dasd', 0);
 
 -- --------------------------------------------------------
 
@@ -145,7 +147,8 @@ CREATE TABLE `comments` (
 
 INSERT INTO `comments` (`id`, `name`, `comment`, `email`, `website`, `blog_id`, `created_at`) VALUES
 (3, 'Ivan', 'My new comment', 'ivan@mail.ru', 'https://dsadas', 1, '2024-11-11 17:07:42'),
-(4, 'dsa', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus blanditiis consequuntur dolore ducimus eius eum fugit hic illum in maxime minus mollitia porro reprehenderit voluptate, voluptatem! Magni quibusdam reiciendis ut.', 'das@dsa', 'https://dsadas', 1, '2024-11-11 17:08:19');
+(4, 'dsa', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus blanditiis consequuntur dolore ducimus eius eum fugit hic illum in maxime minus mollitia porro reprehenderit voluptate, voluptatem! Magni quibusdam reiciendis ut.', 'das@dsa', 'https://dsadas', 1, '2024-11-11 17:08:19'),
+(6, 'Ivan', 'Comment', 'ivan.tixonov00@mail.ru', 'https://dsadas', 2, '2024-11-26 15:08:14');
 
 -- --------------------------------------------------------
 
@@ -159,34 +162,36 @@ CREATE TABLE `companies` (
   `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `available_position` int NOT NULL DEFAULT '0',
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `is_admin` tinyint(1) NOT NULL DEFAULT '0',
+  `is_top` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `companies`
 --
 
-INSERT INTO `companies` (`id`, `company`, `email`, `password`, `available_position`, `image`) VALUES
-(11, 'ivan', 'ivan@mail.ru', '$2y$10$yxCbwrxNH9oz8umx8/LoROIammmIs978.NFXiQKHWDZ69/mEXus0m', 0, '/img/svg_icon/5.svg'),
-(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL),
-(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL);
+INSERT INTO `companies` (`id`, `company`, `email`, `password`, `available_position`, `image`, `is_admin`, `is_top`) VALUES
+(11, 'ivan', 'ivan@mail.ru', '$2y$10$yxCbwrxNH9oz8umx8/LoROIammmIs978.NFXiQKHWDZ69/mEXus0m', 0, '/img/svg_icon/5.svg', 1, 1),
+(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL, 0, 0),
+(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `experience`
+-- Структура таблицы `experiences`
 --
 
-CREATE TABLE `experience` (
+CREATE TABLE `experiences` (
   `id` int NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `experience`
+-- Дамп данных таблицы `experiences`
 --
 
-INSERT INTO `experience` (`id`, `name`) VALUES
+INSERT INTO `experiences` (`id`, `name`) VALUES
 (1, '1 year');
 
 -- --------------------------------------------------------
@@ -207,79 +212,80 @@ CREATE TABLE `jobs` (
   `job_type_id` int NOT NULL,
   `location_id` int NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date` date NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `company_id` int NOT NULL
+  `company_id` int NOT NULL,
+  `available_position` int UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `jobs`
 --
 
-INSERT INTO `jobs` (`id`, `name`, `description`, `category_id`, `min_salary`, `max_salary`, `qualification_id`, `experience_id`, `job_type_id`, `location_id`, `image`, `date`, `slug`, `company_id`) VALUES
-(1, 'Software Engineer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 7, 50, 120, 10, 1, 2, 1, '/img/svg_icon/1.svg', '2024-11-06', 'Software-Engineer', 11),
-(13, 'Digital Marketer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 50, 120, 6, 1, 1, 1, '/img/svg_icon/2.svg', '2024-11-06', 'Digital-Marketer', 11),
-(14, 'Wordpress Developer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 56, 2, 1, 2, 1, './img/svg_icon/3.svg', '2024-11-06', 'Wordpress-Developer', 11),
-(15, 'Visual Designer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 33, 3, 1, 1, 1, '/img/svg_icon/4.svg', '2024-11-06', 'Visual-Designer', 11),
-(17, 'dd3wa', 'dsa', 3, 2, 3, 7, 1, 1, 2, NULL, '2024-11-07', 'dd3wa', 11),
-(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-08', '123', 11),
-(25, 'News', 'new job', 6, 56, 124, 6, 1, 2, 2, NULL, '2024-11-11', 'News', 15),
-(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-11', 'New-Job', 15);
+INSERT INTO `jobs` (`id`, `name`, `description`, `category_id`, `min_salary`, `max_salary`, `qualification_id`, `experience_id`, `job_type_id`, `location_id`, `image`, `date`, `slug`, `company_id`, `available_position`) VALUES
+(1, 'Software Engineer', '<h1>Header</h1>\r\n\r\n<hr />\r\n<h3>Experience</h3>\r\n\r\n<ol>\r\n	<li>1 year</li>\r\n	<li>2 year</li>\r\n	<li>5 year</li>\r\n</ol>\r\n\r\n<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing.</p>\r\n', 7, 50, 120, 10, 1, 2, 1, '/img/svg_icon/1.svg', '2024-11-05 17:00:00', 'Software-Engineer', 11, 3),
+(13, 'Digital Marketer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 50, 120, 6, 1, 1, 1, '/img/svg_icon/2.svg', '2024-11-05 17:00:00', 'Digital-Marketer', 11, 5),
+(14, 'Wordpress Developer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 56, 2, 1, 2, 1, '/img/svg_icon/3.svg', '2024-11-05 17:00:00', 'Wordpress-Developer', 11, 10),
+(15, 'Visual Designer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 33, 3, 1, 1, 1, '/img/svg_icon/4.svg', '2024-11-05 17:00:00', 'Visual-Designer', 11, 41),
+(17, 'dd3wa', 'dsa', 3, 2, 3, 7, 1, 1, 2, NULL, '2024-11-06 17:00:00', 'dd3wa', 11, 0),
+(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-07 17:00:00', '123', 11, 0),
+(25, 'News', 'new job', 6, 56, 124, 6, 1, 2, 2, NULL, '2024-11-10 17:00:00', 'News', 15, 0),
+(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-10 17:00:00', 'New-Job', 15, 25);
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `job_type`
+-- Структура таблицы `job_types`
 --
 
-CREATE TABLE `job_type` (
+CREATE TABLE `job_types` (
   `id` int NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `job_type`
+-- Дамп данных таблицы `job_types`
 --
 
-INSERT INTO `job_type` (`id`, `name`) VALUES
+INSERT INTO `job_types` (`id`, `name`) VALUES
 (1, 'Full-time'),
 (2, 'Part-time');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `location`
+-- Структура таблицы `locations`
 --
 
-CREATE TABLE `location` (
+CREATE TABLE `locations` (
   `id` int NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `location`
+-- Дамп данных таблицы `locations`
 --
 
-INSERT INTO `location` (`id`, `name`) VALUES
+INSERT INTO `locations` (`id`, `name`) VALUES
 (1, 'California, USA'),
 (2, 'Abakan, Russia');
 
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `qualification`
+-- Структура таблицы `qualifications`
 --
 
-CREATE TABLE `qualification` (
+CREATE TABLE `qualifications` (
   `id` int NOT NULL,
   `level` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `qualification`
+-- Дамп данных таблицы `qualifications`
 --
 
-INSERT INTO `qualification` (`id`, `level`) VALUES
+INSERT INTO `qualifications` (`id`, `level`) VALUES
 (2, 1),
 (3, 2),
 (4, 3),
@@ -311,9 +317,8 @@ CREATE TABLE `responses` (
 --
 
 INSERT INTO `responses` (`id`, `name`, `email`, `url`, `CV`, `cover_letter`, `job_id`) VALUES
-(8, 'Vika', 'vika@mail.ru', 'https://vika.com', '/responses/Верстка.jpg', 'I am Vika!', 25),
-(9, 'Ivan', 'ivan@mail.ru', 'https://my-site.com', '/responses/Аватарка.jpg', 'I am Ivan!', 25),
-(10, 'Vlad', 'vlad@gmail.com', 'https://vlad.ru', '/responses/Снимок экрана 2024-09-24 234121.png', 'I am Vlad!', 28);
+(11, 'Ivan', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/slide_thumb_1.png', 'Hello!', 1),
+(12, 'Vika', 'vika@mail.ru', 'https://vika.com', '/responses/blog_4.png', 'I\'m Vika!', 1);
 
 -- --------------------------------------------------------
 
@@ -336,10 +341,10 @@ INSERT INTO `specialties` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Структура таблицы `testimonial`
+-- Структура таблицы `testimonials`
 --
 
-CREATE TABLE `testimonial` (
+CREATE TABLE `testimonials` (
   `id` int NOT NULL,
   `author` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -347,10 +352,10 @@ CREATE TABLE `testimonial` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Дамп данных таблицы `testimonial`
+-- Дамп данных таблицы `testimonials`
 --
 
-INSERT INTO `testimonial` (`id`, `author`, `description`, `image`) VALUES
+INSERT INTO `testimonials` (`id`, `author`, `description`, `image`) VALUES
 (1, 'Micky Mouse', 'Working in conjunction with humanitarian aid agencies, we have supported programmes to help alleviate human suffering through animal welfare when people might depend on livestock as their only source of income or food.', '/img/testmonial/author.png');
 
 -- --------------------------------------------------------
@@ -407,8 +412,8 @@ ALTER TABLE `blog_categories`
 --
 ALTER TABLE `blog_category`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `blog_id` (`blog_id`),
-  ADD KEY `blog_category_id` (`blog_category_id`);
+  ADD KEY `blog_category_ibfk_1` (`blog_id`),
+  ADD KEY `blog_category_ibfk_2` (`blog_category_id`);
 
 --
 -- Индексы таблицы `categories`
@@ -421,7 +426,7 @@ ALTER TABLE `categories`
 --
 ALTER TABLE `comments`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `blog_id` (`blog_id`);
+  ADD KEY `comments_ibfk_1` (`blog_id`);
 
 --
 -- Индексы таблицы `companies`
@@ -431,9 +436,9 @@ ALTER TABLE `companies`
   ADD UNIQUE KEY `company` (`company`);
 
 --
--- Индексы таблицы `experience`
+-- Индексы таблицы `experiences`
 --
-ALTER TABLE `experience`
+ALTER TABLE `experiences`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -446,24 +451,25 @@ ALTER TABLE `jobs`
   ADD KEY `qualification_id` (`qualification_id`),
   ADD KEY `experience` (`experience_id`),
   ADD KEY `job_type_id` (`job_type_id`),
-  ADD KEY `location_id` (`location_id`);
+  ADD KEY `location_id` (`location_id`),
+  ADD KEY `company_id` (`company_id`);
 
 --
--- Индексы таблицы `job_type`
+-- Индексы таблицы `job_types`
 --
-ALTER TABLE `job_type`
+ALTER TABLE `job_types`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `location`
+-- Индексы таблицы `locations`
 --
-ALTER TABLE `location`
+ALTER TABLE `locations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `qualification`
+-- Индексы таблицы `qualifications`
 --
-ALTER TABLE `qualification`
+ALTER TABLE `qualifications`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -480,9 +486,9 @@ ALTER TABLE `specialties`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индексы таблицы `testimonial`
+-- Индексы таблицы `testimonials`
 --
-ALTER TABLE `testimonial`
+ALTER TABLE `testimonials`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -500,7 +506,7 @@ ALTER TABLE `сandidates`
 -- AUTO_INCREMENT для таблицы `blogs`
 --
 ALTER TABLE `blogs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT для таблицы `blog_categories`
@@ -512,7 +518,7 @@ ALTER TABLE `blog_categories`
 -- AUTO_INCREMENT для таблицы `blog_category`
 --
 ALTER TABLE `blog_category`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
 
 --
 -- AUTO_INCREMENT для таблицы `categories`
@@ -524,49 +530,49 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT для таблицы `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- AUTO_INCREMENT для таблицы `experience`
+-- AUTO_INCREMENT для таблицы `experiences`
 --
-ALTER TABLE `experience`
+ALTER TABLE `experiences`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
--- AUTO_INCREMENT для таблицы `job_type`
+-- AUTO_INCREMENT для таблицы `job_types`
 --
-ALTER TABLE `job_type`
+ALTER TABLE `job_types`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `location`
+-- AUTO_INCREMENT для таблицы `locations`
 --
-ALTER TABLE `location`
+ALTER TABLE `locations`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT для таблицы `qualification`
+-- AUTO_INCREMENT для таблицы `qualifications`
 --
-ALTER TABLE `qualification`
+ALTER TABLE `qualifications`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `specialties`
@@ -575,9 +581,9 @@ ALTER TABLE `specialties`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT для таблицы `testimonial`
+-- AUTO_INCREMENT для таблицы `testimonials`
 --
-ALTER TABLE `testimonial`
+ALTER TABLE `testimonials`
   MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
@@ -594,24 +600,25 @@ ALTER TABLE `сandidates`
 -- Ограничения внешнего ключа таблицы `blog_category`
 --
 ALTER TABLE `blog_category`
-  ADD CONSTRAINT `blog_category_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `blog_category_ibfk_2` FOREIGN KEY (`blog_category_id`) REFERENCES `blog_categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `blog_category_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `blog_category_ibfk_2` FOREIGN KEY (`blog_category_id`) REFERENCES `blog_categories` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `comments`
 --
 ALTER TABLE `comments`
-  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`blog_id`) REFERENCES `blogs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `jobs`
 --
 ALTER TABLE `jobs`
   ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_3` FOREIGN KEY (`qualification_id`) REFERENCES `qualification` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_4` FOREIGN KEY (`experience_id`) REFERENCES `experience` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_5` FOREIGN KEY (`job_type_id`) REFERENCES `job_type` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_6` FOREIGN KEY (`location_id`) REFERENCES `location` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `jobs_ibfk_3` FOREIGN KEY (`qualification_id`) REFERENCES `qualifications` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `jobs_ibfk_4` FOREIGN KEY (`experience_id`) REFERENCES `experiences` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `jobs_ibfk_5` FOREIGN KEY (`job_type_id`) REFERENCES `job_types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `jobs_ibfk_6` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `jobs_ibfk_7` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Ограничения внешнего ключа таблицы `responses`
