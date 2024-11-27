@@ -26,7 +26,8 @@ if (in_array($_FILES['image']['type'], $types)) {
 $stmt = $pdo->prepare("UPDATE jobs SET name = :name, description = :description,
                   category_id = :category_id, min_salary = :min_salary, max_salary = :max_salary,
                   qualification_id = :qualification_id, experience_id = :experience_id, job_type_id = :job_type_id,
-                  location_id = :location_id, image = :image, slug = :slug WHERE id = :id");
+                  location_id = :location_id, image = :image, slug = :slug,
+                  available_position = :available_position WHERE id = :id");
 $stmt->execute([
     'name' => $_POST['name'],
     'description' => $_POST['description'],
@@ -39,6 +40,7 @@ $stmt->execute([
     'location_id' => $_POST['location'],
     'image' => $image,
     'slug' => empty($_POST['slug']) ? createSlug($_POST['name']) : $_POST['slug'],
+    'available_position' => $_POST['available_position'],
     'id' => $_POST['id']
 ]);
 

@@ -4,7 +4,7 @@ session_start();
 /** @var PDO $pdo */
 $pdo = require_once $_SERVER['DOCUMENT_ROOT'] . '/db.php';
 
-$path = $_SERVER['DOCUMENT_ROOT'] . '/responses/';
+$path = '/responses/' . $_FILES['image']['name'];
 $types = [
     'image/jpeg',
     'image/png',
@@ -15,8 +15,7 @@ $types = [
 ];
 
 if (in_array($_FILES['image']['type'], $types)) {
-    copy($_FILES['image']['tmp_name'], $path . $_FILES['image']['name']);
-    $image = '/responses/' . $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $path);
 } else {
     $_SESSION['error'] = 'Resume is required!';
     header('Location: /job_details.php?slug=' . $_POST['slug']);
@@ -27,17 +26,9 @@ $stmt = $pdo->prepare("SELECT available_position FROM jobs WHERE id = :id");
 $stmt->execute([
     'id' => $_POST['id']
 ]);
-$job = $stmt->fetch();
+$available_position = $stmt->fetch();
 
-try {
-    $stmt = $pdo->prepare("UPDATE jobs SET available_position = :available_position WHERE id = :id");
-    $stmt->execute([
-        'available_position' => $job['available_position'] - 1,
-        'id' => $_POST['id']
-    ]);
-
-    header('Location: /job_details.php?slug=' . $_POST['slug']);
-} catch (PDOException $e) {
+if ($available_position['available_position'] == 0) {
     $_SESSION['error_vacancies'] = 'No vacancies available!';
     header('Location: /job_details.php?slug=' . $_POST['slug']);
     exit();
@@ -49,7 +40,9 @@ $stmt->execute([
     'name' => $_POST['name'],
     'email' => $_POST['email'],
     'url' => $_POST['url'],
-    'CV' => $image,
+    'CV' => $path,
     'cover_letter' => $_POST['cover_letter'],
     'job_id' => $_POST['id']
 ]);
+
+header('Location: /job_details.php?slug=' . $_POST['slug']);

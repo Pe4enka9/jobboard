@@ -108,6 +108,11 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header_bootstrap.php';
                 </div>
 
                 <div class="mb-3">
+                    <input type="number" name="available_position" id="available_position" class="form-control"
+                           placeholder="Available Position" value="<?= $job['available_position'] ?>">
+                </div>
+
+                <div class="mb-3">
                     <input type="file" name="image" class="form-control">
                 </div>
                 <div class="mb-3">

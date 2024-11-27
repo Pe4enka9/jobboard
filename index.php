@@ -154,7 +154,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
                 <div class="col-lg-4 col-xl-3 col-md-6">
                     <div class="single_catagory">
                         <a href="/jobs.php?category=<?= $category['id'] ?>"><h4><?= $category['name'] ?></h4></a>
-                        <p><span><?= $category['total_positions'] ?></span> Available position</p>
+                        <p><span><?= $category['total_positions'] ?? '0' ?></span> Available position</p>
                     </div>
                 </div>
             <?php endforeach; ?>

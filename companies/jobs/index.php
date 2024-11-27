@@ -65,7 +65,7 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header_bootstrap.php';
                 <td><?= $job['date'] ?></td>
                 <td><?= $job['slug'] ?></td>
                 <td><?= $job['available_position'] ?></td>
-                <td><a href="/companies/jobs/responses.php?id=<?= $job['id'] ?>" class="btn btn-info">Responses</a></td>
+                <td><a href="/companies/jobs/responses/?id=<?= $job['id'] ?>" class="btn btn-info">Responses</a></td>
                 <td><a href="/companies/jobs/edit.php?id=<?= $job['id'] ?>" class="btn btn-primary">Edit</a></td>
                 <td><a href="/companies/jobs/actions/delete.php?id=<?= $job['id'] ?>" class="btn btn-danger">Delete</a>
                 </td>
