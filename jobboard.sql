@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.2
--- Время создания: Ноя 27 2024 г., 18:35
+-- Время создания: Ноя 27 2024 г., 19:44
 -- Версия сервера: 8.2.0
 -- Версия PHP: 8.3.6
 
@@ -117,12 +117,12 @@ CREATE TABLE `categories` (
 INSERT INTO `categories` (`id`, `name`, `is_popular`) VALUES
 (1, 'Design & Creative', 1),
 (2, 'Marketing', 1),
-(3, 'Telemarketing', 0),
-(4, 'Software & Web', 0),
+(3, 'Telemarketing', 1),
+(4, 'Software & Web', 1),
 (5, 'Administration', 0),
 (6, 'Teaching & Education', 0),
 (7, 'Engineering', 0),
-(8, 'Garments / Textile', 0);
+(8, 'Garments / Textile', 1);
 
 -- --------------------------------------------------------
 
@@ -172,8 +172,8 @@ CREATE TABLE `companies` (
 
 INSERT INTO `companies` (`id`, `company`, `email`, `password`, `available_position`, `image`, `is_admin`, `is_top`) VALUES
 (11, 'ivan', 'ivan@mail.ru', '$2y$10$yxCbwrxNH9oz8umx8/LoROIammmIs978.NFXiQKHWDZ69/mEXus0m', 0, '/img/svg_icon/5.svg', 1, 1),
-(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL, 0, 1),
-(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL, 0, 0);
+(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL, 0, 0),
+(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -191,7 +191,9 @@ CREATE TABLE `experiences` (
 --
 
 INSERT INTO `experiences` (`id`, `name`) VALUES
-(1, '1 year');
+(1, '1 year'),
+(2, '3 years'),
+(3, '5 years');
 
 -- --------------------------------------------------------
 
@@ -225,11 +227,10 @@ INSERT INTO `jobs` (`id`, `name`, `description`, `category_id`, `min_salary`, `m
 (13, 'Digital Marketer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 50, 120, 6, 1, 1, 1, '/img/svg_icon/2.svg', '2024-11-05 17:00:00', 'Digital-Marketer', 11, 4),
 (14, 'Wordpress Developer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 56, 2, 1, 2, 1, '/img/svg_icon/3.svg', '2024-11-05 17:00:00', 'Wordpress-Developer', 11, 10),
 (15, 'Visual Designer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 33, 3, 1, 1, 1, '/img/svg_icon/4.svg', '2024-11-05 17:00:00', 'Visual-Designer', 11, 40),
-(17, 'dd3wa', 'dsa', 3, 2, 3, 7, 1, 1, 2, NULL, '2024-11-06 17:00:00', 'dd3wa', 11, 0),
-(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-07 17:00:00', '123', 11, 9),
+(17, 'dd3wa', '<p>dsa</p>\r\n', 3, 2, 3, 7, 1, 1, 2, NULL, '2024-11-06 17:00:00', 'dd3wa', 11, 9),
+(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-07 17:00:00', '123', 11, 7),
 (25, 'News', 'new job', 6, 56, 124, 6, 1, 2, 2, NULL, '2024-11-10 17:00:00', 'News', 15, 0),
-(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-10 17:00:00', 'New-Job', 15, 25),
-(32, 'aboba', '<p>dfdgfhdgfh</p>\r\n\r\n<p><strong>gkjgkjgkuk</strong></p>\r\n\r\n<ul>\r\n	<li>tygjdtj</li>\r\n	<li>dgfhdg</li>\r\n	<li>dfghdgfh</li>\r\n	<li>dgfh</li>\r\n</ul>\r\n', 2, 1, 50000, 7, 1, 2, 2, '/img/scale_2400 (2).jpeg', '2024-11-27 00:00:00', 'eschkerembus', 11, 31);
+(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-10 17:00:00', 'New-Job', 15, 25);
 
 -- --------------------------------------------------------
 
@@ -308,22 +309,43 @@ CREATE TABLE `responses` (
   `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `CV` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `cover_letter` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `job_id` int NOT NULL
+  `job_id` int NOT NULL,
+  `response_status_id` int NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Дамп данных таблицы `responses`
 --
 
-INSERT INTO `responses` (`id`, `name`, `email`, `url`, `CV`, `cover_letter`, `job_id`) VALUES
-(13, 'Ð˜Ð²Ð°Ð½', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dsadsa', 25),
-(14, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21),
-(15, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21),
-(16, 'da', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', '321das', 25),
-(17, 'dsa', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasfds', 25),
-(20, 'Ð˜Ð²Ð°Ð½', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'hgf', 15),
-(21, 'vladik', 'abosrys@mail.ru', 'https://mgnklfgnkljhn', '/responses/scale_2400.jpeg', 'fk;lasdfd;lsa', 32),
-(22, 'Ð¼Ð¸ÑˆÐºÐ° ÑˆÐ¸ÑˆÐºÐ°', 'mishka@mail.ru', 'https://Ð¼Ð¸ÑˆÐºÐ°ÑˆÐ¸ÑˆÐºÐ°.Ñ€Ñƒ', '/responses/fd90fed1e5be289a42ef63be29d50ef8eb97673cr1-450-253_hq.gif', 'Ð¿Ñ€Ð¸Ð²ÐµÑ‚ Ñ Ð¼Ð¸ÑˆÐºÐ° Ð¸ ÑˆÐ¸ÑˆÐºÐ° ', 13);
+INSERT INTO `responses` (`id`, `name`, `email`, `url`, `CV`, `cover_letter`, `job_id`, `response_status_id`) VALUES
+(14, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21, 2),
+(15, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21, 3),
+(16, 'da', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', '321das', 25, 1),
+(17, 'dsa', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasfds', 25, 1),
+(23, 'das', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/blog_3.png', '454', 17, 2),
+(25, 'das', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/slide_thumb_1.png', 'das', 17, 2),
+(26, 'gfd', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/single_blog_2.png', 'dsa', 17, 2),
+(32, 'dsadas', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/single_blog_5.png', 'dasfds', 21, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `response_statuses`
+--
+
+CREATE TABLE `response_statuses` (
+  `id` int NOT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Дамп данных таблицы `response_statuses`
+--
+
+INSERT INTO `response_statuses` (`id`, `status`) VALUES
+(1, 'Waiting'),
+(2, 'Accept'),
+(3, 'Decline');
 
 -- --------------------------------------------------------
 
@@ -485,6 +507,12 @@ ALTER TABLE `responses`
   ADD KEY `job_id` (`job_id`);
 
 --
+-- Индексы таблицы `response_statuses`
+--
+ALTER TABLE `response_statuses`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `specialties`
 --
 ALTER TABLE `specialties`
@@ -547,7 +575,7 @@ ALTER TABLE `companies`
 -- AUTO_INCREMENT для таблицы `experiences`
 --
 ALTER TABLE `experiences`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `jobs`
@@ -577,7 +605,13 @@ ALTER TABLE `qualifications`
 -- AUTO_INCREMENT для таблицы `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT для таблицы `response_statuses`
+--
+ALTER TABLE `response_statuses`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `specialties`
