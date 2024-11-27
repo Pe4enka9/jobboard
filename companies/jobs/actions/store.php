@@ -23,9 +23,9 @@ if (in_array($_FILES['image']['type'], $types)) {
 }
 
 $stmt = $pdo->prepare("INSERT INTO jobs(name, description, category_id, min_salary, max_salary,
-                 qualification_id, experience_id, job_type_id, location_id, image, date, slug, company_id)
+                 qualification_id, experience_id, job_type_id, location_id, image, date, slug, company_id, available_position)
 VALUES (:name, :description, :category_id, :min_salary, :max_salary,
-        :qualification_id, :experience_id, :job_type_id, :location_id, :image, :date, :slug, :company_id)");
+        :qualification_id, :experience_id, :job_type_id, :location_id, :image, :date, :slug, :company_id, :available_position)");
 $stmt->execute([
     'name' => $_POST['name'],
     'description' => $_POST['description'],
@@ -39,7 +39,8 @@ $stmt->execute([
     'image' => $image,
     'date' => date('Y-m-d'),
     'slug' => empty($_POST['slug']) ? createSlug($_POST['name']) : $_POST['slug'],
-    'company_id' => $_SESSION['company_id']
+    'company_id' => $_SESSION['company_id'],
+    'available_position' => $_POST['available_position']
 ]);
 
 header('Location: /companies/jobs/');

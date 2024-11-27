@@ -5,45 +5,38 @@ require $_SERVER['DOCUMENT_ROOT'] . '/check_admin.php';
 $category = $pdo->prepare("SELECT * FROM categories WHERE id = ?");
 $category->execute([$_GET['id'] ?? '']);
 $category = $category->fetch();
+
+$title = 'Edit category';
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header_bootstrap.php';
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edit category</title>
-</head>
+    <div class="container mt-3">
+        <a href="/admin/categories/" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Back</a>
 
-<style>
-    input {
-        display: block;
-        margin-bottom: 15px;
-    }
+        <h1 class="text-primary my-3">Edit category</h1>
 
-    div {
-        display: flex;
-        gap: 5px;
-    }
-</style>
+        <div class="row">
+            <div class="col-4">
+                <form action="/admin/categories/actions/update.php" method="post">
+                    <input type="hidden" name="id" value="<?= $category['id'] ?>">
 
-<body>
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control" placeholder="Name"
+                               value="<?= $category['name'] ?>">
+                    </div>
 
-<h1>Edit category</h1>
+                    <div class="form-check mb-3">
+                        <input type="checkbox" name="is_popular"
+                               id="is_popular" class="form-check-input" <?= $category['is_popular'] ? 'checked' : '' ?>>
+                        <label for="is_popular" class="form-check-label">Popular</label>
+                    </div>
 
-<form action="/admin/categories/actions/update.php" method="post">
-    <input type="hidden" name="id" value="<?= $category['id'] ?>">
-    <input type="text" name="name" placeholder="Name" value="<?= $category['name'] ?>">
-
-    <div>
-        <input type="checkbox" name="is_popular" id="is_popular" <?= $category['is_popular'] ? 'checked' : '' ?>>
-        <label for="is_popular">Popular</label>
+                    <input type="submit" class="btn btn-success" value="Edit">
+                </form>
+            </div>
+        </div>
     </div>
 
-    <input type="submit" value="Edit">
-</form>
-
-</body>
-</html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/footer_bootstrap.php';
+?>

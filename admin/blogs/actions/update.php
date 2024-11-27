@@ -7,8 +7,6 @@ $stmt = $pdo->prepare("SELECT image FROM blogs WHERE id = ?");
 $stmt->execute([$_POST['id']]);
 $blogImage = $stmt->fetch();
 
-var_dump($_FILES['image']);
-
 if (!empty($_FILES['image']['tmp_name'])) {
     $path = '/img/blog/' . $_FILES['image']['name'];
 

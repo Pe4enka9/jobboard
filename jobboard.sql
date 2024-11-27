@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: MySQL-8.2
--- Время создания: Ноя 26 2024 г., 22:24
+-- Время создания: Ноя 27 2024 г., 18:35
 -- Версия сервера: 8.2.0
 -- Версия PHP: 8.3.6
 
@@ -29,12 +29,12 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `blogs` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `short_description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `short_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -58,7 +58,7 @@ INSERT INTO `blogs` (`id`, `name`, `short_description`, `description`, `created_
 
 CREATE TABLE `blog_categories` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -106,7 +106,7 @@ INSERT INTO `blog_category` (`id`, `blog_id`, `blog_category_id`) VALUES
 
 CREATE TABLE `categories` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `is_popular` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -121,9 +121,8 @@ INSERT INTO `categories` (`id`, `name`, `is_popular`) VALUES
 (4, 'Software & Web', 0),
 (5, 'Administration', 0),
 (6, 'Teaching & Education', 0),
-(7, 'Engineering', 1),
-(8, 'Garments / Textile', 0),
-(11, 'dasd', 0);
+(7, 'Engineering', 0),
+(8, 'Garments / Textile', 0);
 
 -- --------------------------------------------------------
 
@@ -133,10 +132,10 @@ INSERT INTO `categories` (`id`, `name`, `is_popular`) VALUES
 
 CREATE TABLE `comments` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `comment` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `website` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `website` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `blog_id` int NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -158,11 +157,11 @@ INSERT INTO `comments` (`id`, `name`, `comment`, `email`, `website`, `blog_id`, 
 
 CREATE TABLE `companies` (
   `id` int NOT NULL,
-  `company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `available_position` int NOT NULL DEFAULT '0',
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_admin` tinyint(1) NOT NULL DEFAULT '0',
   `is_top` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -173,8 +172,8 @@ CREATE TABLE `companies` (
 
 INSERT INTO `companies` (`id`, `company`, `email`, `password`, `available_position`, `image`, `is_admin`, `is_top`) VALUES
 (11, 'ivan', 'ivan@mail.ru', '$2y$10$yxCbwrxNH9oz8umx8/LoROIammmIs978.NFXiQKHWDZ69/mEXus0m', 0, '/img/svg_icon/5.svg', 1, 1),
-(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL, 0, 0),
-(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL, 0, 1);
+(13, 'Snack Studio', 'snack@gmail.com', '$2y$10$wKdXv.H1lEAe2yWx16ndDOioaJVxooaEahs0.3e3bQI/k5W9q5k..', 0, NULL, 0, 1),
+(15, 'ivan2', 'ivan.tixonov00@mail.ru', '$2y$10$ndGxRw102PG4a6Fiqc4cTeM0xJCClVZUSm/FXBIxmy3x7gSgY0ur2', 0, NULL, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +183,7 @@ INSERT INTO `companies` (`id`, `company`, `email`, `password`, `available_positi
 
 CREATE TABLE `experiences` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -202,8 +201,8 @@ INSERT INTO `experiences` (`id`, `name`) VALUES
 
 CREATE TABLE `jobs` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `category_id` int NOT NULL,
   `min_salary` int NOT NULL,
   `max_salary` int NOT NULL,
@@ -213,7 +212,7 @@ CREATE TABLE `jobs` (
   `location_id` int NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `company_id` int NOT NULL,
   `available_position` int UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -223,14 +222,14 @@ CREATE TABLE `jobs` (
 --
 
 INSERT INTO `jobs` (`id`, `name`, `description`, `category_id`, `min_salary`, `max_salary`, `qualification_id`, `experience_id`, `job_type_id`, `location_id`, `image`, `date`, `slug`, `company_id`, `available_position`) VALUES
-(1, 'Software Engineer', '<h1>Header</h1>\r\n\r\n<hr />\r\n<h3>Experience</h3>\r\n\r\n<ol>\r\n	<li>1 year</li>\r\n	<li>2 year</li>\r\n	<li>5 year</li>\r\n</ol>\r\n\r\n<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don&#39;t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn&#39;t anything embarrassing.</p>\r\n', 7, 50, 120, 10, 1, 2, 1, '/img/svg_icon/1.svg', '2024-11-05 17:00:00', 'Software-Engineer', 11, 3),
-(13, 'Digital Marketer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 50, 120, 6, 1, 1, 1, '/img/svg_icon/2.svg', '2024-11-05 17:00:00', 'Digital-Marketer', 11, 5),
+(13, 'Digital Marketer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 50, 120, 6, 1, 1, 1, '/img/svg_icon/2.svg', '2024-11-05 17:00:00', 'Digital-Marketer', 11, 4),
 (14, 'Wordpress Developer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 56, 2, 1, 2, 1, '/img/svg_icon/3.svg', '2024-11-05 17:00:00', 'Wordpress-Developer', 11, 10),
-(15, 'Visual Designer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 33, 3, 1, 1, 1, '/img/svg_icon/4.svg', '2024-11-05 17:00:00', 'Visual-Designer', 11, 41),
+(15, 'Visual Designer', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing.', 1, 23, 33, 3, 1, 1, 1, '/img/svg_icon/4.svg', '2024-11-05 17:00:00', 'Visual-Designer', 11, 40),
 (17, 'dd3wa', 'dsa', 3, 2, 3, 7, 1, 1, 2, NULL, '2024-11-06 17:00:00', 'dd3wa', 11, 0),
-(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-07 17:00:00', '123', 11, 0),
+(21, '123', '123', 1, 2, 3, 2, 1, 1, 1, NULL, '2024-11-07 17:00:00', '123', 11, 9),
 (25, 'News', 'new job', 6, 56, 124, 6, 1, 2, 2, NULL, '2024-11-10 17:00:00', 'News', 15, 0),
-(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-10 17:00:00', 'New-Job', 15, 25);
+(28, 'New Job', 'cool', 2, 3, 65, 2, 1, 1, 1, NULL, '2024-11-10 17:00:00', 'New-Job', 15, 25),
+(32, 'aboba', '<p>dfdgfhdgfh</p>\r\n\r\n<p><strong>gkjgkjgkuk</strong></p>\r\n\r\n<ul>\r\n	<li>tygjdtj</li>\r\n	<li>dgfhdg</li>\r\n	<li>dfghdgfh</li>\r\n	<li>dgfh</li>\r\n</ul>\r\n', 2, 1, 50000, 7, 1, 2, 2, '/img/scale_2400 (2).jpeg', '2024-11-27 00:00:00', 'eschkerembus', 11, 31);
 
 -- --------------------------------------------------------
 
@@ -240,7 +239,7 @@ INSERT INTO `jobs` (`id`, `name`, `description`, `category_id`, `min_salary`, `m
 
 CREATE TABLE `job_types` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -259,7 +258,7 @@ INSERT INTO `job_types` (`id`, `name`) VALUES
 
 CREATE TABLE `locations` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -304,11 +303,11 @@ INSERT INTO `qualifications` (`id`, `level`) VALUES
 
 CREATE TABLE `responses` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `CV` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cover_letter` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CV` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cover_letter` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `job_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -317,8 +316,14 @@ CREATE TABLE `responses` (
 --
 
 INSERT INTO `responses` (`id`, `name`, `email`, `url`, `CV`, `cover_letter`, `job_id`) VALUES
-(11, 'Ivan', 'ivan.tixonov00@mail.ru', 'https://my-site.com', '/responses/slide_thumb_1.png', 'Hello!', 1),
-(12, 'Vika', 'vika@mail.ru', 'https://vika.com', '/responses/blog_4.png', 'I\'m Vika!', 1);
+(13, 'Ð˜Ð²Ð°Ð½', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dsadsa', 25),
+(14, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21),
+(15, 'das', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasdas', 21),
+(16, 'da', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', '321das', 25),
+(17, 'dsa', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'dasfds', 25),
+(20, 'Ð˜Ð²Ð°Ð½', 'ivan@mail.ru', 'https://mgnklfgnkljhn', '/responses/IMG_20240913_150223.jpg', 'hgf', 15),
+(21, 'vladik', 'abosrys@mail.ru', 'https://mgnklfgnkljhn', '/responses/scale_2400.jpeg', 'fk;lasdfd;lsa', 32),
+(22, 'Ð¼Ð¸ÑˆÐºÐ° ÑˆÐ¸ÑˆÐºÐ°', 'mishka@mail.ru', 'https://Ð¼Ð¸ÑˆÐºÐ°ÑˆÐ¸ÑˆÐºÐ°.Ñ€Ñƒ', '/responses/fd90fed1e5be289a42ef63be29d50ef8eb97673cr1-450-253_hq.gif', 'Ð¿Ñ€Ð¸Ð²ÐµÑ‚ Ñ Ð¼Ð¸ÑˆÐºÐ° Ð¸ ÑˆÐ¸ÑˆÐºÐ° ', 13);
 
 -- --------------------------------------------------------
 
@@ -328,7 +333,7 @@ INSERT INTO `responses` (`id`, `name`, `email`, `url`, `CV`, `cover_letter`, `jo
 
 CREATE TABLE `specialties` (
   `id` int NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -346,9 +351,9 @@ INSERT INTO `specialties` (`id`, `name`) VALUES
 
 CREATE TABLE `testimonials` (
   `id` int NOT NULL,
-  `author` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `image` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `author` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -366,8 +371,8 @@ INSERT INTO `testimonials` (`id`, `author`, `description`, `image`) VALUES
 
 CREATE TABLE `сandidates` (
   `id` int NOT NULL,
-  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `first_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `speciality_id` int NOT NULL,
   `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -524,7 +529,7 @@ ALTER TABLE `blog_category`
 -- AUTO_INCREMENT для таблицы `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `comments`
@@ -536,7 +541,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT для таблицы `companies`
 --
 ALTER TABLE `companies`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `experiences`
@@ -548,7 +553,7 @@ ALTER TABLE `experiences`
 -- AUTO_INCREMENT для таблицы `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT для таблицы `job_types`
@@ -572,7 +577,7 @@ ALTER TABLE `qualifications`
 -- AUTO_INCREMENT для таблицы `responses`
 --
 ALTER TABLE `responses`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `specialties`
@@ -613,24 +618,24 @@ ALTER TABLE `comments`
 -- Ограничения внешнего ключа таблицы `jobs`
 --
 ALTER TABLE `jobs`
-  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_3` FOREIGN KEY (`qualification_id`) REFERENCES `qualifications` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_4` FOREIGN KEY (`experience_id`) REFERENCES `experiences` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_5` FOREIGN KEY (`job_type_id`) REFERENCES `job_types` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_6` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `jobs_ibfk_7` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `jobs_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`),
+  ADD CONSTRAINT `jobs_ibfk_3` FOREIGN KEY (`qualification_id`) REFERENCES `qualifications` (`id`),
+  ADD CONSTRAINT `jobs_ibfk_4` FOREIGN KEY (`experience_id`) REFERENCES `experiences` (`id`),
+  ADD CONSTRAINT `jobs_ibfk_5` FOREIGN KEY (`job_type_id`) REFERENCES `job_types` (`id`),
+  ADD CONSTRAINT `jobs_ibfk_6` FOREIGN KEY (`location_id`) REFERENCES `locations` (`id`),
+  ADD CONSTRAINT `jobs_ibfk_7` FOREIGN KEY (`company_id`) REFERENCES `companies` (`id`);
 
 --
 -- Ограничения внешнего ключа таблицы `responses`
 --
 ALTER TABLE `responses`
-  ADD CONSTRAINT `responses_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `responses_ibfk_1` FOREIGN KEY (`job_id`) REFERENCES `jobs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Ограничения внешнего ключа таблицы `сandidates`
 --
 ALTER TABLE `сandidates`
-  ADD CONSTRAINT `сandidates_ibfk_1` FOREIGN KEY (`speciality_id`) REFERENCES `specialties` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `сandidates_ibfk_1` FOREIGN KEY (`speciality_id`) REFERENCES `specialties` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

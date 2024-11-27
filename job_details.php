@@ -143,6 +143,12 @@ include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header.php';
                                 <div class="input_field">
                                     <textarea name="cover_letter" cols="30" rows="10"
                                               placeholder="Cover letter"></textarea>
+                                    <?php
+                                    if (isset($_SESSION['error_vacancies'])) {
+                                        echo "<div class='text-danger mb-3'>{$_SESSION['error_vacancies']}</div>";
+                                        unset($_SESSION['error_vacancies']);
+                                    }
+                                    ?>
                                 </div>
                             </div>
                             <div class="col-md-12">

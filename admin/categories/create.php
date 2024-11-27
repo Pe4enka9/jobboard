@@ -1,44 +1,33 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/check_admin.php';
+
+$title = 'Add category';
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header_bootstrap.php';
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add category</title>
-</head>
+<div class="container mt-3">
+    <a href="/admin/categories/" class="btn btn-outline-primary"><i class="bi bi-arrow-left me-1"></i>Back</a>
 
-<style>
-    input {
-        display: block;
-        margin-bottom: 15px;
-    }
+    <h1 class="text-primary my-3">Add category</h1>
 
-    div {
-        display: flex;
-        gap: 5px;
-    }
-</style>
+    <div class="row">
+        <div class="col-3">
+            <form action="/admin/categories/actions/store.php" method="post">
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Name">
+                </div>
 
-<body>
+                <div class="form-check mb-3">
+                    <input type="checkbox" name="is_popular" class="form-check-input" id="is_popular">
+                    <label for="is_popular" class="form-check-label">Popular</label>
+                </div>
 
-<h1>Add category</h1>
-
-<form action="/admin/categories/actions/store.php" method="post">
-    <input type="text" name="name" placeholder="Name">
-    <input type="number" name="available_position" placeholder="Available Position">
-
-    <div>
-        <input type="checkbox" name="is_popular" id="is_popular">
-        <label for="is_popular">Popular</label>
+                <input type="submit" class="btn btn-success" value="Add">
+            </form>
+        </div>
     </div>
+</div>
 
-    <input type="submit" value="Add">
-</form>
-
-</body>
-</html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/footer_bootstrap.php';
+?>

@@ -13,28 +13,19 @@ JOIN experiences ON jobs.experience_id = experiences.id
 JOIN job_types ON jobs.job_type_id = job_types.id
 JOIN locations ON jobs.location_id = locations.id
 WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
+
+$title = 'Jobs';
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/header_bootstrap.php';
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <title>Jobs</title>
-</head>
+    <div class="container mt-3">
+        <a href="/" class="btn btn-outline-primary"><i class="bi bi-house me-2"></i>Home</a>
 
-<body>
+        <h1 class="text-primary my-3">Jobs</h1>
 
-<div class="container mt-3">
-    <h1 class="text-primary">Jobs</h1>
+        <a href="/companies/jobs/create.php" class="btn btn-primary">Add job</a>
 
-    <a href="/companies/jobs/create.php" class="btn btn-primary">Add job</a>
-
-</div>
+    </div>
 
 <?php if ($jobs): ?>
     <table class="table table-striped mt-3">
@@ -53,6 +44,7 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
             <th scope="col">Image</th>
             <th scope="col">Date</th>
             <th scope="col">Slug</th>
+            <th scope="col">Available Position</th>
         </tr>
         </thead>
 
@@ -72,6 +64,7 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
                 <td><img src="<?= $job['image'] ?? '/img/no_image.jpg' ?>" alt="" width="80"></td>
                 <td><?= $job['date'] ?></td>
                 <td><?= $job['slug'] ?></td>
+                <td><?= $job['available_position'] ?></td>
                 <td><a href="/companies/jobs/responses.php?id=<?= $job['id'] ?>" class="btn btn-info">Responses</a></td>
                 <td><a href="/companies/jobs/edit.php?id=<?= $job['id'] ?>" class="btn btn-primary">Edit</a></td>
                 <td><a href="/companies/jobs/actions/delete.php?id=<?= $job['id'] ?>" class="btn btn-danger">Delete</a>
@@ -84,8 +77,6 @@ WHERE company_id = {$_SESSION['company_id']}")->fetchAll();
     <p style="margin-top: 15px;">You don't have any vacancies yet :(</p>
 <?php endif; ?>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
-</body>
-</html>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . '/layouts/footer_bootstrap.php';
+?>
